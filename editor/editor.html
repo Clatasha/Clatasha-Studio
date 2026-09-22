@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clatasha Studio</title>
-  <link rel="stylesheet" href="editor.css?v=1.0.62">
+  <link rel="stylesheet" href="editor.css?v=1.0.63">
 </head>
 <body>
   <!-- Top Menu Bar -->
@@ -20,12 +20,12 @@
       </div>
       <div class="menu-items">
         <div class="menu-group">
-          <button class="menu-btn" data-menu="file">File</button>
-          <button class="menu-btn" data-menu="edit">Edit</button>
-          <button class="menu-btn" data-menu="view">View</button>
-          <button class="menu-btn" data-menu="workspace">Workspace</button>
-          <button class="menu-btn" data-menu="plugins">Plugins</button>
-          <button class="menu-btn" data-menu="help">Help</button>
+          <button class="menu-btn" data-menu="file" popovertarget="menu-file">File</button>
+          <button class="menu-btn" data-menu="edit" popovertarget="menu-edit">Edit</button>
+          <button class="menu-btn" data-menu="view" popovertarget="menu-view">View</button>
+          <button class="menu-btn" data-menu="workspace" popovertarget="menu-workspace">Workspace</button>
+          <button class="menu-btn" data-menu="plugins" popovertarget="menu-plugins">Plugins</button>
+          <button class="menu-btn" data-menu="help" popovertarget="menu-help">Help</button>
         </div>
       </div>
     </div>
@@ -514,7 +514,7 @@
   </aside>
 
   <!-- Dropdown Menus (File/Edit/View/Workspace) -->
-  <div class="dropdown-menu" id="menu-file" style="display:none">
+  <div class="dropdown-menu" id="menu-file" popover="auto">
     <button data-action="newProject"><span class="shortcut">Ctrl+N</span>New Project</button>
     <button data-action="saveProject"><span class="shortcut">Ctrl+S</span>Save Project</button>
     <button data-action="loadProject">Open Saved...</button>
@@ -533,7 +533,7 @@
     <button data-action="size1920x1080" id="menuSizeThumb" style="justify-content:space-between"><span>1920 × 1080 (Thumbnail)</span><span class="shortcut" id="sizeThumbCheck">✓</span></button>
     <button data-action="size1080x1920" id="menuSizeShorts" style="justify-content:space-between"><span>1080 × 1920 (Shorts)</span><span class="shortcut" id="sizeShortsCheck"></span></button>
   </div>
-  <div class="dropdown-menu" id="menu-edit" style="display:none">
+  <div class="dropdown-menu" id="menu-edit" popover="auto">
     <button data-action="undo" id="menuUndo" disabled><span class="shortcut">Ctrl+Z</span>Undo</button>
     <button data-action="redo" id="menuRedo" disabled><span class="shortcut">Ctrl+Shift+Z</span>Redo</button>
     <div class="menu-separator"></div>
@@ -549,7 +549,7 @@
     <button data-action="selectAll"><span class="shortcut">Ctrl+A</span>Select All</button>
     <button data-action="deselectAll"><span class="shortcut">Esc</span>Deselect All</button>
   </div>
-  <div class="dropdown-menu" id="menu-view" style="display:none">
+  <div class="dropdown-menu" id="menu-view" popover="auto">
     <button data-action="clickCheck"><span class="shortcut"></span>Clatasha Click Check</button>
     <div class="menu-separator"></div>
     <button data-action="zoomIn"><span class="shortcut">Ctrl++</span>Zoom In</button>
@@ -562,7 +562,7 @@
     <button data-action="clearGuides" id="menuClearGuides"><span class="shortcut"></span>Clear Movable Guides</button>
     <button data-action="toggleSnap" id="menuSnap"><span class="shortcut" id="snapShortcut">&#10003;</span>Snap to Guides &amp; Objects</button>
   </div>
-  <div class="dropdown-menu workspace-menu" id="menu-workspace" style="display:none">
+  <div class="dropdown-menu workspace-menu" id="menu-workspace" popover="auto">
     <button type="button" data-action="saveAsTemplate"><span class="workspace-theme-label"><span class="workspace-menu-icon">+</span>Save as Template</span></button>
     <div class="menu-separator"></div>
     <button type="button" class="workspace-submenu-trigger" id="workspaceThemesTrigger" aria-haspopup="menu" aria-expanded="false">
@@ -581,7 +581,7 @@
       <span class="shortcut workspace-theme-check" id="themeBowetechCheck"></span>
     </button>
   </div>
-  <div class="dropdown-menu plugins-menu" id="menu-plugins" style="display:none">
+  <div class="dropdown-menu plugins-menu" id="menu-plugins" popover="auto">
     <button type="button" id="menuManagePlugins">Manage Plugins...</button>
     <button type="button" id="menuInstallPlugin">Install Plugin...</button>
     <div class="menu-separator"></div>
@@ -591,7 +591,7 @@
     <div class="menu-separator"></div>
     <button type="button" id="menuPluginDeveloper">Developer Documentation</button>
   </div>
-  <div class="dropdown-menu help-menu" id="menu-help" style="display:none">
+  <div class="dropdown-menu help-menu" id="menu-help" popover="auto">
     <button data-action="openGuide">Clatasha Guide</button>
     <button data-action="openUpdates">Updates</button>
     <div class="menu-separator"></div>
@@ -888,7 +888,7 @@
           </div>
         </div>
         <div class="help-center-header-actions">
-          <span class="help-version-badge" id="helpCurrentVersion">Version 1.0.62</span>
+          <span class="help-version-badge" id="helpCurrentVersion">Version 1.0.63</span>
           <button class="help-center-close" id="helpCenterClose" type="button" title="Close" aria-label="Close Help Center">&times;</button>
         </div>
       </header>
@@ -937,7 +937,7 @@
               <div class="help-about-logo-wrap"><img src="../assets/branding/clatasha-logo.png" alt="Clatasha company logo" draggable="false"></div>
               <span class="help-page-eyebrow">CREATED BY CLATASHA</span>
               <h3>Clatasha Studio</h3>
-              <p class="help-about-version" id="helpAboutVersion">Version 1.0.62</p>
+              <p class="help-about-version" id="helpAboutVersion">Version 1.0.63</p>
               <p class="help-about-description">A private, offline design studio made for thumbnails, creator graphics and visual projects directly inside Chrome.</p>
               <div class="help-about-divider"></div>
               <p class="help-copyright">&copy; 2011&ndash;2026 Clatasha. All rights reserved.</p>
@@ -966,7 +966,6 @@
     </div>
   </div>
 
-  <script src="menu-bootstrap.js?v=1.0.62"></script>
-  <script type="module" src="editor.js?v=1.0.62"></script>
+  <script type="module" src="editor.js?v=1.0.63"></script>
 </body>
 </html>

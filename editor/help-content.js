@@ -99,6 +99,15 @@ export const CLATASHA_SHORTCUTS = [
 
 export const CLATASHA_CHANGELOG = [
   {
+    version: '1.0.63',
+    label: 'Native Reliable Menus',
+    changes: [
+      'Replaced the JavaScript-driven top menus with native Chrome popover menus.',
+      'Moved dropdowns into Chrome\'s top display layer so editor overlays cannot cover them.',
+      'Removed a CSS parsing error introduced beside the saved-template styles.',
+    ],
+  },
+  {
     version: '1.0.62',
     label: 'Reliable Editor Menus',
     changes: [

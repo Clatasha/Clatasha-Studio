@@ -10855,34 +10855,30 @@ function setupMenu() {
   if (menuSetupComplete) return;
   menuSetupComplete = true;
 
-  // The early bootstrap owns top-level menu opening. Retain a fallback for
-  // development pages that load editor.js without menu-bootstrap.js.
-  if (!window.ClatashaMenuBootstrap) {
-    document.querySelectorAll('.menu-btn[data-menu]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const menuId = btn.dataset.menu;
-        if (activeMenu === menuId) {
-          closeMenus(); return;
-        }
-        closeMenus();
-        const menu = document.getElementById('menu-' + menuId);
-        if (!menu) return;
-        const rect = btn.getBoundingClientRect();
-        menu.style.left = rect.left + 'px';
-        menu.style.display = 'block';
-        btn.classList.add('active');
+  // Chrome owns opening and closing these native popovers, so the menus remain
+  // usable even if the larger editor startup is delayed. JavaScript only adds
+  // exact positioning, active styling, and dynamic recent-project content.
+  document.querySelectorAll('.menu-btn[data-menu]').forEach(button => {
+    const menuId = button.dataset.menu;
+    const menu = document.getElementById('menu-' + menuId);
+    if (!menu) return;
+    menu.addEventListener('beforetoggle', event => {
+      if (event.newState !== 'open') return;
+      const rect = button.getBoundingClientRect();
+      menu.style.left = Math.max(4, rect.left) + 'px';
+    });
+    menu.addEventListener('toggle', event => {
+      const opened = event.newState === 'open';
+      button.classList.toggle('active', opened);
+      button.setAttribute('aria-expanded', opened ? 'true' : 'false');
+      if (opened) {
         activeMenu = menuId;
         if (menuId === 'file') populateRecentMenu();
-      });
+      } else if (activeMenu === menuId) {
+        activeMenu = null;
+      }
     });
-    document.addEventListener('click', () => closeMenus());
-  } else {
-    document.addEventListener('clatasha:menu-open', event => {
-      activeMenu = event.detail?.menuId || null;
-      if (activeMenu === 'file') populateRecentMenu();
-    });
-  }
+  });
 
   document.querySelectorAll('.dropdown-menu button[data-action]').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -10971,8 +10967,9 @@ async function loadRecentProject(id) {
 }
 
 function closeMenus() {
-  window.ClatashaMenuBootstrap?.close();
-  document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
+  document.querySelectorAll('.dropdown-menu[popover]').forEach(menu => {
+    if (menu.matches(':popover-open')) menu.hidePopover();
+  });
   document.querySelectorAll('.menu-btn[data-menu]').forEach(button => {
     button.classList.remove('active');
     button.setAttribute('aria-expanded', 'false');
@@ -10984,9 +10981,9 @@ function closeMenus() {
 // ===== HELP CENTER =====
 function getExtensionVersion() {
   try {
-    return globalThis.chrome?.runtime?.getManifest?.().version || '1.0.62';
+    return globalThis.chrome?.runtime?.getManifest?.().version || '1.0.63';
   } catch (_) {
-    return '1.0.62';
+    return '1.0.63';
   }
 }
 

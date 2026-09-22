@@ -154,8 +154,6 @@ export function createPluginSystem(host) {
   }
 
   function hideMenus() {
-    document.querySelectorAll('.dropdown-menu').forEach(menu => { menu.style.display = 'none'; });
-    document.querySelectorAll('.menu-btn').forEach(button => button.classList.remove('active'));
     host.closeMenus?.();
   }
 

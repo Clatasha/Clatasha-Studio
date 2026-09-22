@@ -2,6 +2,12 @@
 
 This page records selected Clatasha Studio milestones. It is not a complete internal commit history.
 
+## v1.0.63
+
+- Replaced the JavaScript-driven top menus with native Chrome popover menus
+- Moved dropdowns into Chrome's top display layer so editor overlays cannot cover them
+- Removed a CSS parsing error introduced beside the saved-template styles
+
 ## v1.0.62
 
 - Made the top menus responsive immediately when the editor page opens
