@@ -38,9 +38,14 @@ jobs:
         run: |
           VERSION=$(node -p "require('./manifest.json').version")
           mkdir -p "dist/Clatasha-Studio-v${VERSION}"
-          cp -R assets editor fonts icons lib plugins popup manifest.json THIRD_PARTY_NOTICES.md "dist/Clatasha-Studio-v${VERSION}/"
+          cp -R assets editor fonts icons lib plugins popup manifest.json "dist/Clatasha-Studio-v${VERSION}/"
           cd "dist/Clatasha-Studio-v${VERSION}"
           zip -qr "../Clatasha-Studio-v${VERSION}-Chrome.zip" .
+          cd ..
+          if zipinfo -1 "Clatasha-Studio-v${VERSION}-Chrome.zip" | grep -Eq '(^|/)\.git|^\.github/|^(README|CHANGELOG|ROADMAP|CONTRIBUTING|COPYRIGHT|THIRD_PARTY_NOTICES)'; then
+            echo "Repository-only files were found in the Chrome package."
+            exit 1
+          fi
 
       - name: Upload Chrome extension
         uses: actions/upload-artifact@v4
