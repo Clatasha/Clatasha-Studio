@@ -1,0 +1,60 @@
+name: Bug report
+description: Report a reproducible problem as an approved tester
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Bug reports are currently intended for approved testers. Do not attach private projects, encryption keys, personal images, or unreleased packages to a public issue.
+  - type: input
+    id: version
+    attributes:
+      label: Clatasha Studio version
+      placeholder: "Example: 1.0.60"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open...
+        2. Select...
+        3. Click...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: "Example: Chrome 151"
+    validations:
+      required: true
+  - type: input
+    id: operating-system
+    attributes:
+      label: Operating system
+      placeholder: "Example: Windows 11"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional notes
+      description: Add safe screenshots or other non-sensitive context if useful.
+    validations:
+      required: false
