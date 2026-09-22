@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a86dff"/>
+      <stop offset="1" stop-color="#5b27c9"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="19" y1="15" x2="45" y2="49" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff"/>
+      <stop offset="1" stop-color="#ddd4ff"/>
+    </linearGradient>
+  </defs>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="url(#bg)"/>
+  <path d="M16 18.5A4.5 4.5 0 0 1 20.5 14h23a4.5 4.5 0 0 1 4.5 4.5v27a4.5 4.5 0 0 1-4.5 4.5h-23a4.5 4.5 0 0 1-4.5-4.5z" fill="none" stroke="url(#shine)" stroke-width="3"/>
+  <circle cx="25" cy="24" r="3" fill="#fff"/>
+  <path d="m18 43 9-9 6 6 5-5 8 8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="36" y="31" width="17" height="15" rx="4" fill="#171021" stroke="#fff" stroke-width="2.5"/>
+  <path d="M40 31v-3a4.5 4.5 0 0 1 9 0v3" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="44.5" cy="38" r="2" fill="#b897ff"/>
+  <path d="M44.5 40v2" stroke="#b897ff" stroke-width="2" stroke-linecap="round"/>
+</svg>

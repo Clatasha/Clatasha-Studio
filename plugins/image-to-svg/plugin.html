@@ -1,0 +1,41 @@
+<div class="vs-app">
+  <header class="vs-hero">
+    <div class="vs-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="5" y="10" width="22" height="27" rx="3"/><circle cx="12" cy="18" r="2"/><path d="m6 31 7-7 7 7 6-5M24 23h10m-3-3 3 3-3 3M30 37l7-25 7 25M32 30h10"/><rect x="34" y="9" width="6" height="6" rx="1"/></svg></div>
+    <div><span class="vs-eyebrow">TRACE · PREVIEW · EXPORT</span><h1>Image to SVG</h1><p>Turn logos, icons and flat artwork into scalable vector paths.</p></div>
+    <span class="vs-badge"><i></i>Runs on this device</span>
+  </header>
+  <div class="vs-comparison-toolbar"><span>Compare the original and vector at the same zoom. Drag to pan.</span><label>Preview zoom <select id="vsZoom"><option value="0">Fit</option><option value="100">100%</option><option value="200">200%</option><option value="400">400%</option></select></label></div>
+  <main class="vs-workbench">
+    <section class="vs-previews" aria-label="Image comparison">
+      <article class="vs-card">
+        <header class="vs-card-heading"><strong>Original</strong><span id="vsSourceSize">No image</span></header>
+        <div class="vs-preview-box vs-dropzone" id="vsDropzone" tabindex="0" role="button" aria-label="Choose an image to convert">
+          <img id="vsSourcePreview" class="vs-preview" alt="Original image" draggable="false" hidden>
+          <div id="vsSourceEmpty" class="vs-empty"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="8" width="36" height="31" rx="6"/><circle cx="17" cy="18" r="3"/><path d="m8 34 11-11 8 8 5-5 8 8"/></svg><strong>Drop an image here</strong><span>or click to choose a file</span></div>
+        </div>
+        <div class="vs-source-name" id="vsSourceName">PNG, JPG, WebP and other raster images</div>
+        <div class="vs-source-actions"><button type="button" id="vsChoose" class="vs-button vs-quiet">Choose image</button><button type="button" id="vsSelected" class="vs-button vs-quiet">Use selected image</button></div>
+        <input id="vsFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/avif,.png,.jpg,.jpeg,.webp,.gif,.bmp,.avif" hidden>
+      </article>
+      <article class="vs-card">
+        <header class="vs-card-heading"><strong>Vector preview</strong><span id="vsResultSize">SVG</span></header>
+        <div class="vs-preview-box" id="vsResultPane"><img id="vsResultPreview" class="vs-preview" alt="Traced vector result" draggable="false" hidden><div id="vsResultEmpty" class="vs-empty"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 38 24 10l16 28ZM16 27h16"/><rect x="21" y="7" width="6" height="6" rx="1"/><rect x="5" y="35" width="6" height="6" rx="1"/><rect x="37" y="35" width="6" height="6" rx="1"/></svg><strong>Your SVG appears here</strong><span>Choose an image, then convert</span></div></div>
+        <div id="vsStats" class="vs-stats">Vector paths, without an embedded image</div>
+      </article>
+    </section>
+    <aside class="vs-controls" aria-label="Tracing settings">
+      <h2>Tracing settings</h2>
+      <label class="vs-field"><span>Artwork preset</span><select id="vsPreset"><option value="logo">Logo</option><option value="illustration" selected>Illustration</option><option value="photo">Photo</option></select></label>
+      <label class="vs-field"><span>Accuracy / file size</span><select id="vsQuality"><option value="compact">Compact</option><option value="balanced">Balanced</option><option value="high" selected>High accuracy</option></select></label>
+      <label class="vs-field"><span>Mode</span><select id="vsMode"><option value="color">Color artwork</option><option value="mono">Black &amp; white</option></select></label>
+      <label id="vsColorsField" class="vs-field"><span>Colors</span><select id="vsColors"><option value="2">2 colors</option><option value="4">4 colors</option><option value="8">8 colors</option><option value="16">16 colors</option><option value="24">24 colors</option><option value="32">32 colors</option><option value="48">48 colors</option><option value="64">64 colors</option><option value="128" selected>128 colors</option><option value="256">256 colors</option></select></label>
+      <label id="vsThresholdField" class="vs-field" hidden><span>Black threshold <output id="vsThresholdValue">128</output></span><input id="vsThreshold" type="range" min="0" max="255" step="1" value="128"></label>
+      <label class="vs-field"><span>Detail</span><select id="vsDetail"><option value="512">Low · smaller SVG</option><option value="1024">1024 px</option><option value="1536">1536 px</option><option value="2048" selected>2048 px · highest detail</option></select></label>
+      <label class="vs-field"><span>Curve smoothing <output id="vsSmoothValue">0.6</output></span><input id="vsSmooth" type="range" min="0" max="2" step="0.1" value="0.6"></label>
+      <label class="vs-field"><span>Remove small details</span><select id="vsSpeckles"><option value="0" selected>Off · preserve small features</option><option value="2">Light</option><option value="4">Medium</option><option value="8">Strong</option><option value="16">Very strong</option></select></label>
+      <label class="vs-checkbox"><input id="vsRemoveWhite" type="checkbox"><span>Remove white background</span></label>
+      <div class="vs-tip"><strong>Match the artwork, keep the detail.</strong><p>Try Logo for clean edges, Illustration for colored artwork, or Photo for richer tones. Fine-tune any setting afterward.</p><p>High accuracy uses more source detail and finer color separation. More colors and detail make larger SVG files.</p><p>Small sources stay at their native resolution. Photos remain a vector approximation. Set smoothing to zero for pixel art. A GIF uses one frame.</p></div>
+    </aside>
+  </main>
+  <footer class="vs-footer"><span id="vsStatus" class="vs-status" role="status" aria-live="polite">Choose an image to begin</span><div class="vs-footer-actions"><button type="button" id="vsCancel" class="vs-button vs-quiet" hidden>Cancel</button><button type="button" id="vsAdd" class="vs-button vs-secondary" disabled>Add to Canvas</button><button type="button" id="vsDownload" class="vs-button vs-secondary" disabled>Download SVG</button><button type="button" id="vsConvert" class="vs-button vs-primary" disabled>Convert to SVG</button></div></footer>
+</div>

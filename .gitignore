@@ -1,0 +1,10 @@
+*.zip
+*.crx
+*.pem
+*.clatasha
+*.clatasha-template
+.DS_Store
+Thumbs.db
+build/
+dist/
+coverage/

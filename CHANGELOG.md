@@ -2,6 +2,14 @@
 
 This page records selected Clatasha Studio milestones. It is not a complete internal commit history.
 
+## v1.0.61
+
+- Added editable user templates stored locally with lightweight canvas previews
+- Added three-column template browsing with YouTube, Shorts, and custom-size sections
+- Added All, My Templates, YouTube, and Shorts filters
+- Added three starter 1080 × 1920 Shorts templates
+- Added template updating, renaming, duplication, export, and complete deletion
+
 ## v1.0.60
 
 - Added a higher-accuracy offline Image to SVG engine

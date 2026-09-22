@@ -1,0 +1,22 @@
+{
+  "id": "clatasha.image-to-svg",
+  "name": "Clatasha Image to SVG",
+  "version": "1.2.0",
+  "developer": "Clatasha",
+  "description": "Trace a local image into vector paths and download a scalable SVG.",
+  "apiVersion": 1,
+  "type": "tool",
+  "runtime": "sandbox",
+  "entry": "plugin.js",
+  "ui": {
+    "html": "plugin.html",
+    "css": "plugin.css"
+  },
+  "menuLabel": "Image to SVG",
+  "icon": "icon.svg",
+  "permissions": [
+    "files.localImages",
+    "canvas.readSelection",
+    "canvas.addImage"
+  ]
+}

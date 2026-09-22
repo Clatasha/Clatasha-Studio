@@ -1,0 +1,19 @@
+{
+  "id": "clatasha.image-merger",
+  "name": "Image Merger",
+  "version": "1.0.1",
+  "developer": "Clatasha",
+  "description": "Combine two local images into one polished canvas layer.",
+  "apiVersion": 1,
+  "type": "tool",
+  "entry": "plugin.js",
+  "menuLabel": "Image Merger",
+  "icon": "icon.svg",
+  "permissions": [
+    "files.localImages",
+    "canvas.readDocument",
+    "canvas.readSelection",
+    "canvas.addImage",
+    "plugin.storage"
+  ]
+}

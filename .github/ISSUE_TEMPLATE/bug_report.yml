@@ -7,12 +7,12 @@ body:
   - type: markdown
     attributes:
       value: |
-        Bug reports are currently intended for approved testers. Do not attach private projects, encryption keys, personal images, or unreleased packages to a public issue.
+        Do not attach private projects, encryption keys, personal images, or confidential plugin data to a public issue.
   - type: input
     id: version
     attributes:
       label: Clatasha Studio version
-      placeholder: "Example: 1.0.60"
+      placeholder: "Example: 1.0.61"
     validations:
       required: true
   - type: textarea

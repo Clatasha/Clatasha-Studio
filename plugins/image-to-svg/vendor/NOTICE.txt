@@ -1,0 +1,5 @@
+VTracer / @visioncortex/vtracer 1.0.0-alpha.4
+Upstream: https://github.com/visioncortex/vtracer
+NPM package integrity: sha512-Hhi+vfG4ealLH1m9alrWo1lM00cWFfur4zeLEcNtzrYUjeEYTgukLNfvOXmuaGe2adugu+jl9o9IUzqHuqFO9g==
+License chosen: MIT; see LICENSE-MIT.txt.
+Browser adaptation: CommonJS exports changed to ES module exports; synchronous Node file initialization replaced with asynchronous loading of the packaged WebAssembly file. Engine bytes are unchanged.

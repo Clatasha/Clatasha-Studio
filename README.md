@@ -1,62 +1,85 @@
 # Clatasha Studio
 
-**A focused image editor for creating thumbnails, social graphics, and visual content directly in the browser.**
+**A browser-based image editor for creating YouTube thumbnails, Shorts graphics, social posts, and other visual content.**
 
-> [!IMPORTANT]
-> **Clatasha Studio is currently in private development.** This public repository documents its progress only. The extension source code, plugin source, private assets, and installable packages are deliberately not included. Public downloads are not available yet.
+Clatasha Studio is a Chrome extension with a layered canvas editor, offline image tools, reusable templates, local project saving, and an expandable plugin system. Its core editor works without accounts, external processing APIs, or image uploads.
 
-## What is Clatasha Studio?
-
-Clatasha Studio is a Chrome image-editing extension designed to keep the creative workflow close at hand. It combines a layered canvas editor, practical design tools, offline processing, and an expandable plugin system in one workspace.
-
-The project is developed by **Clatasha**.
-
-## Current development status
+## Current version
 
 | Item | Status |
 |---|---|
-| Latest internal build | v1.0.60 |
-| Development stage | Private development |
-| Public source code | Not available |
-| Public installation package | Not available |
+| Latest build | v1.0.61 |
+| Development stage | Active development |
+| Source code | Public |
+| Main platform | Google Chrome and Chromium browsers |
 | External processing APIs | Not required for core editing |
 
-## Features under development
+## Main features
 
-- Layer-based canvas editing with grouping, ordering, opacity, blend modes, locking, and multi-selection
-- Text editing with imported fonts, curved text, vertical text, wrapping, outlines, shadows, and style presets
-- Image crop, masks, perspective correction, slicing, healing, cutout, paint, fill, and eyedropper tools
+- Layer-based editing with grouping, ordering, opacity, blend modes, locking, and multi-selection
+- Text tools with imported fonts, curved text, vertical text, wrapping, outlines, shadows, and style presets
+- Image crop, masks, perspective correction, slicing, healing, cutout, painting, fill, and eyedropper tools
 - Shapes, lines, arrows, polygons, guides, rulers, snapping, alignment, and spacing controls
-- Image adjustments with visual presets and custom controls
-- PNG, JPG, and WebP export with quality and transparency options
+- Visual image-adjustment presets and custom adjustment controls
+- Reusable local templates with generated canvas previews
+- Separate YouTube, Shorts, and custom-size template sections
+- PNG, JPG, and WebP export with quality and transparency controls
 - Offline Image Cipher for concealing encrypted messages inside PNG images
 - Offline Image to SVG conversion with artwork presets and high-accuracy tracing
-- Plugin management for extending Clatasha Studio
-- Default and Bowetech interface themes
+- Local plugin installation and management
+- Default and Bowetech workspace themes
 
-## Recent progress
+## Install from source
 
-The latest internal work introduced a more accurate offline Image to SVG engine. It selects a tracing method based on the artwork, processes conversions in a background worker, and provides Logo, Illustration, and Photo presets.
+1. Clone or download this repository.
+2. Open `chrome://extensions` in Chrome.
+3. Turn on **Developer mode**.
+4. Select **Load unpacked**.
+5. Choose the repository folder containing `manifest.json`.
 
-See the [development roadmap](ROADMAP.md) and [selected changelog](CHANGELOG.md) for more information.
+Clatasha Studio opens from its extension icon. Changes pulled from GitHub can be applied with the extension page's **Reload** button.
 
-## Follow the project
+## Project structure
 
-You can:
+```text
+assets/      Branding, cursors, stickers, themes, and visual assets
+editor/      Main canvas editor, interface, project storage, and plugin host
+fonts/       Bundled editor fonts
+icons/       Chrome extension icons
+lib/         Bundled Fabric.js canvas library
+plugins/     Built-in plugins and the local plugin API
+popup/       Chrome extension popup
+manifest.json
+```
 
-- Watch this repository for development updates
-- Star the project to show interest
-- Submit a feature idea through GitHub Issues
-- Report a problem if you are an approved tester
+## Local data and privacy
 
-Source-code contributions are not being accepted while the project remains private.
+Projects, custom templates, imported fonts, plugin settings, and editor preferences are stored locally in the browser. The extension does not require a Clatasha account and its manifest requests no website-access permissions.
 
-## Availability
+Installed third-party plugins may have their own behavior. Review a plugin before installing it.
 
-There is no official public download at this time. Any website or account offering a Clatasha Studio installer before an announcement in this repository is not an authorized release.
+## Development
 
-## Copyright
+The extension uses plain HTML, CSS, JavaScript modules, Fabric.js, IndexedDB, and bundled WebAssembly. No Node.js build step is required for normal development.
+
+JavaScript syntax can be checked with Node.js:
+
+```bash
+find editor popup plugins -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+```
+
+GitHub Actions validates the source and creates an unpacked Chrome package artifact for each update to `main`.
+
+## Feedback
+
+- Use GitHub Issues for reproducible bugs and feature ideas.
+- Include the Clatasha Studio version, Chrome version, operating system, and clear reproduction steps.
+- Do not attach passwords, encryption keys, private projects, personal images, or confidential plugin data to public issues.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md), [ROADMAP.md](ROADMAP.md), and [CHANGELOG.md](CHANGELOG.md) for more information.
+
+## Copyright and third-party software
 
 Copyright © 2011–2026 Clatasha. All rights reserved.
 
-Clatasha Studio is proprietary software. See [COPYRIGHT.md](COPYRIGHT.md) for the repository notice.
+No open-source license has been granted for Clatasha Studio's original source unless a file explicitly says otherwise. Bundled third-party components keep their respective licenses. See [COPYRIGHT.md](COPYRIGHT.md) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

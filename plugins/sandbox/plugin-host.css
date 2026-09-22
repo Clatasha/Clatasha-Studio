@@ -1,0 +1,10 @@
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+body { font-family: "Segoe UI", system-ui, sans-serif; background: #0e0d12; color: #f5f1fa; }
+#pluginRoot { width: 100%; height: 100%; }
+.sandbox-status { position: fixed; inset: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: #0e0d12; color: #81798b; font-size: 12px; }
+.sandbox-status span { width: 26px; height: 26px; border: 2px solid #37313f; border-top-color: #8b5cf6; border-radius: 50%; animation: spin .7s linear infinite; }
+.sandbox-status.error { color: #ff7d88; }
+.sandbox-status.error span { display: none; }
+.sandbox-status[hidden] { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }

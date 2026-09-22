@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clatasha Studio</title>
+  <link rel="stylesheet" href="editor.css?v=1.0.60">
+</head>
+<body>
+  <!-- Top Menu Bar -->
+  <header class="menubar">
+    <div class="menubar-left">
+      <div class="brand">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="#7C3AED"/>
+          <path d="M8 12h16v2H8zM8 18h12v2H8z" fill="white"/>
+          <circle cx="24" cy="22" r="4" fill="#F59E0B"/>
+        </svg>
+        <span class="brand-name">Clatasha Studio <span style="font-size:9px;font-weight:500;opacity:0.6;vertical-align:super;margin-left:2px">BETA</span></span>
+      </div>
+      <div class="menu-items">
+        <div class="menu-group">
+          <button class="menu-btn" data-menu="file">File</button>
+          <button class="menu-btn" data-menu="edit">Edit</button>
+          <button class="menu-btn" data-menu="view">View</button>
+          <button class="menu-btn" data-menu="workspace">Workspace</button>
+          <button class="menu-btn" data-menu="plugins">Plugins</button>
+          <button class="menu-btn" data-menu="help">Help</button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-right">
+      <div class="zoom-controls">
+        <button id="zoomOut" title="Zoom Out">−</button>
+        <span id="zoomLevel">100%</span>
+        <button id="zoomIn" title="Zoom In">+</button>
+        <button id="zoomFit" title="Fit to Screen">Fit</button>
+      </div>
+      <button id="undoBtn" class="icon-btn" title="Undo (Ctrl+Z)" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h13a4 4 0 010 8H9"/><path d="M7 6L3 10l4 4"/></svg>
+      </button>
+      <button id="redoBtn" class="icon-btn" title="Redo (Ctrl+Shift+Z)" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10H8a4 4 0 000 8h6"/><path d="M17 6l4 4-4 4"/></svg>
+      </button>
+      <div class="separator"></div>
+      <div class="donate-wrapper">
+        <button id="donateBtn" class="donate-btn" title="Support Clatasha Studio">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          Donate
+        </button>
+        <div class="donate-popup" id="donatePopup">
+          <div class="donate-popup-title">Support Clatasha Studio</div>
+          <a href="https://ko-fi.com/derspawn" target="_blank" class="donate-option">
+            <span class="donate-icon kofi-icon">K</span>
+            <div class="donate-info">
+              <span class="donate-name">Ko-fi</span>
+              <span class="donate-desc">Buy me a coffee</span>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <a href="https://paypal.me/BFHQ" target="_blank" class="donate-option">
+            <span class="donate-icon paypal-icon">P</span>
+            <div class="donate-info">
+              <span class="donate-name">PayPal</span>
+              <span class="donate-desc">One-time donation</span>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <div class="donate-option btc-option" id="btcOption">
+            <span class="donate-icon btc-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11.5 11.5V7.5H13C13.8 7.5 14.5 8.2 14.5 9C14.5 9.8 13.8 10.5 13 10.5H11.5V11.5ZM11.5 16.5V13H13.5C14.3 13 15 13.7 15 14.5C15 15.3 14.3 16 13.5 16H11.5Z"/><path d="M23.5 14.9C22.8 18.6 19.5 21 15.8 21H6.5L5 24H2L2.5 22.5L3.5 19.5L4.5 16.5L3 11.5H7.5L8.5 8.5L9.5 5.5L10 4H14.5C18.2 4 22.5 8 23.5 14.9Z"/></svg>
+            </span>
+            <div class="donate-info">
+              <span class="donate-name">Bitcoin</span>
+              <span class="donate-addr" id="btcAddr">14pqVhaQyGWYzz8XcYLNaCyGKHN2G1gZcA</span>
+            </div>
+            <button class="copy-btn" id="copyBtcBtn" title="Copy address">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <svg class="copy-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <button id="clickCheckBtn" class="click-check-btn" title="Test thumbnail readability">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.5"/><path d="M18 4l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2z"/></svg>
+        Click Check
+      </button>
+      <button id="exportBtn" class="export-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export
+      </button>
+    </div>
+  </header>
+
+  <!-- Rare menu-bar Easter egg. Kept outside the canvas so it is never exported. -->
+  <div class="friend-easter-egg" id="friendEasterEgg" aria-hidden="true">
+    <div class="easter-friends" id="easterFriends">
+      <img class="easter-friend" src="../assets/easter-eggs/spadomur-mascot.svg" alt="" draggable="false">
+      <img class="easter-friend" src="../assets/easter-eggs/derspawn-mascot.svg" alt="" draggable="false">
+    </div>
+    <div class="easter-car" id="easterCar">
+      <img src="../assets/easter-eggs/sports-car.svg" alt="" draggable="false">
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="main-layout">
+    <!-- Left Toolbar -->
+    <aside class="toolbar">
+      <div class="tool-section">
+        <button class="tool-btn active" data-tool="select" data-theme-icon="select" title="Select (V)">
+          <svg fill="#ffffff" width="20" height="20" viewBox="0 0 52 52"><path d="M49.7 25.3l-8.3-9c-.6-.6-1.4-.1-1.4.9V23H30c-.6 0-1-.4-1-1V12h5.9c1 0 1.5-.9.9-1.4l-9-8.3c-.4-.3-1-.3-1.4 0l-9 8.3c-.6.6-.1 1.4.9 1.4H23v10c0 .6-.4 1-1 1H12v-5.9c0-1-.9-1.5-1.4-.9l-8.3 9c-.3.4-.3 1 0 1.4l8.3 9c.6.6 1.4.1 1.4-.9V29h10c.6 0 1 .4 1 1v10h-5.9c-1 0-1.5.9-.9 1.4l9 8.3c.4.3 1 .3 1.4 0l9-8.3c.6-.6.1-1.4-.9-1.4H29V30c0-.6.4-1 1-1h10v5.9c0 1 .9 1.5 1.4.9l8.3-9c.4-.5.4-1.1 0-1.5z"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="hand" data-theme-icon="pan" title="Pan (H)">
+          <svg width="20" height="20" viewBox="0 0 512 512"><path fill="#ffffff" d="M472.9 241.8c-10.9-9.7-35-23.1-84.5 24.5-9.2 8.8-14.7 12-21.7 19.6V51.1c0-15.2-12-27.6-27.3-27.6s-27.7 12.4-27.7 27.6v139.3c0 13-16.8 14.1-19.7 3.4V27.6C292 12.4 280 0 264.7 0S237 12.3 237 27.6v166.7c-2.1 10.2-17.1 9.8-18.2-1.2V47.5c0-15.2-12-27.5-27.3-27.5s-27.7 12.3-27.7 27.5v143.3c-.1.2-.1.5-.1 1 0 12.5-16.1 13.6-19 3.5V92.7c0-15.2-12-27.5-27.3-27.5S89.7 77.5 89.7 92.7v241.4c0 49 28.8 91.3 70.4 110.9v39.2c0 15.2 12.4 27.6 27.6 27.6h110.4c15.2 0 27.6-12.4 27.6-27.6v-27.8c18.3-2.1 34.3-11.8 44.7-25.9.2-.2.3-.4.4-.6.3-.4.6-.8.8-1.2.9-1 2-2.8 3.3-5.4.7-1.2 1.3-2.4 1.9-3.7 12.7-25.7 41.7-95.3 93.7-140.3 10.7-10.7 13.3-27.8 2.4-37.5z"/><path fill="#808080" d="M319.6 456.9h-85.5l.2-.2h-22.4c-18.6 0-36.3-4.2-52.1-11.6v35c5 2.6 9.8 4.3 13.9 4.3h138.1c4 0 8.7-1.3 13.6-3.4v-24.4c-1.9.1-3.8.2-5.8.3z"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="zoom" id="zoomToolBtn" title="Zoom Tool (Z) — Click to zoom in, Alt-click to zoom out, or drag an area">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.2 15.2L21 21M7.5 10.5h6M10.5 7.5v6"/></svg>
+        </button>
+      </div>
+      <div class="tool-divider"></div>
+      <div class="tool-section">
+        <button class="tool-btn tool-flyout-main" data-tool="text" data-theme-icon="text" id="textMainTool" title="Horizontal Text (T) — Right-click for Vertical Text">
+          <svg fill="#ffffff" width="20" height="20" viewBox="0 0 512 512"><path d="M46.5 0v139.6h23.3c0-23.3 0-69.8 23.3-93.1 23.2-23.3 46.5-23.3 69.8-23.3h46.5v395.6c0 34.9-11.6 69.8-46.5 69.8l-22.8 0-.5 23.2h232.7v-23.3h-23.3c-34.9 0-46.5-34.9-46.5-69.8V23.3h46.5c23.3 0 46.5 0 69.8 23.3s23.3 69.8 23.3 93.1h23.3V0h-419z"/></svg>
+        </button>
+        <button class="tool-btn tool-flyout-main" data-tool="rect" data-theme-icon="rectangle" id="shapeMainTool" title="Rectangle (R) — Right-click for more shape tools">
+          <svg fill="#ffffff" width="20" height="20" viewBox="-2 -4 24 24"><path d="M3 2a1 1 0 00-1 1v10a1 1 0 001 1h14a1 1 0 001-1V3a1 1 0 00-1-1H3zm0-2h14a3 3 0 013 3v10a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3z"/></svg>
+        </button>
+      </div>
+      <div class="tool-divider"></div>
+      <div class="tool-section">
+        <button class="tool-btn" id="stickerBtn" data-theme-icon="stickers" title="Stickers (S)">
+          <svg width="20" height="20" viewBox="0 0 128 128"><path d="M68.05 7.23l13.46 30.7a7.047 7.047 0 005.82 4.19l32.79 2.94c3.71.54 5.19 5.09 2.5 7.71l-24.7 20.75c-2 1.68-2.91 4.32-2.36 6.87l7.18 33.61c.63 3.69-3.24 6.51-6.56 4.76L67.56 102a7.033 7.033 0 00-7.12 0l-28.62 16.75c-3.31 1.74-7.19-1.07-6.56-4.76l7.18-33.61c.54-2.55-.36-5.19-2.36-6.87L5.37 52.78c-2.68-2.61-1.2-7.17 2.5-7.71l32.79-2.94a7.047 7.047 0 005.82-4.19l13.46-30.7c1.67-3.36 6.45-3.36 8.11-.01z" fill="#ffffff"/><path d="M67.07 39.77l-2.28-22.62c-.09-1.26-.35-3.42 1.67-3.42 1.6 0 2.47 3.33 2.47 3.33l6.84 18.16c2.58 6.91 1.52 9.28-.97 10.68-2.86 1.6-7.08.35-7.73-6.13z" fill="#ffff8d"/><path d="M95.28 71.51l19.62-15.31c.97-.81 2.72-2.1 1.32-3.57-1.11-1.16-4.11.51-4.11.51l-17.17 6.71c-5.12 1.77-8.52 4.39-8.82 7.69-.39 4.4 3.56 7.79 9.16 3.97z" fill="#f4b400"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="image" data-theme-icon="image-import" title="Import Image (I)">
+          <svg fill="#ffffff" width="20" height="20" viewBox="0 0 24 24"><path d="M21 2H3a1 1 0 00-1 1v18a1 1 0 001 1h18a1 1 0 001-1V3a1 1 0 00-1-1zm-1 12l-3-3-5 5-2-2-6 6V4h16zM6 8.5A2.5 2.5 0 118.5 11 2.5 2.5 0 016 8.5z"/></svg>
+        </button>
+        <button class="tool-btn" id="videoFrameBtn" data-theme-icon="video-import" title="Grab Frame from Video">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 5v14M17 5v14M3 9h4M3 15h4M17 9h4M17 15h4"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="cutout" data-theme-icon="cutout-brush" title="Cutout Brush (X) — Alt temporarily restores">
+          <svg width="20" height="20" viewBox="0 0 480.966 480.967"><path fill="#ffffff" d="M436.741 79.291c-30.753 36.346-73.79 82.461-121.183 129.854-57.34 57.332-113.835 109.163-151.126 138.616-3.015 2.395-7.341 2.135-10.06-.591l-17.05-17.04c-2.713-2.726-2.967-7.046-.588-10.066 29.459-37.285 81.293-93.786 138.625-151.121 47.387-47.387 93.515-90.426 129.854-121.186 61.448-51.994 67.317-46.122 72.483-40.958 5.179 5.175 11.048 11.044-40.955 72.492zM44.674 374.448c-29.075 29.081-72.649 147.107-19.967 85.346 52.688-61.773 56.259 9.103 85.337-19.973 29.069-29.075 38.009-67.276 19.96-85.328-18.047-18.051-56.258-9.114-85.33 19.955zm87.769-42.492c-2.97-2.955-7.758-2.955-10.725 0-2.958 2.967-2.958 7.761 0 10.716l19.435 19.429c2.956 2.961 7.755 2.961 10.719 0 2.967-2.955 2.961-7.749 0-10.716l-19.429-19.429z"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="healing" data-theme-icon="spot-healing" title="Spot Healing Brush (J)">
+          <svg width="20" height="20" viewBox="0 0 16 16"><g fill="#ffffff"><path d="M.927 10.543c-1.165 1.168-1.177 3.047-.025 4.199l.354.354c1.151 1.15 3.029 1.139 4.195-.027l1.536-1.534-4.525-4.523-1.535 1.531zM15.129 1.222l-.354-.354C13.623-.283 11.742-.27 10.57.899L9.008 2.463l4.527 4.525 1.562-1.563c1.169-1.169 1.182-3.052.032-4.203zM3.469 7.969L8 12.469l4.562-4.438-4.588-4.646-4.505 4.584zm4.557-1.943H6.979V4.979h1.047v1.047zm2 2.016H8.979V6.98h1.047v1.062zm-.015 2H8.98V8.98h1.031v1.062zm-2-2H6.98V6.98h1.031v1.062zm-2 0H4.98V6.98h1.031v1.062zm2.015 2H6.979V8.98h1.047v1.062z"/></g></svg>
+        </button>
+        <button class="tool-btn" data-tool="draw" data-theme-icon="brush-studio" id="brushStudioBtn" title="Brush Studio (D)">
+          <svg width="20" height="20" viewBox="0 0 28.569 28.569"><path fill="#ffffff" d="M26.131 1.824c.334-.537.185-1.249-.352-1.613-.536-.364-1.253-.243-1.63.264l-.005-.002-8.472 12.446c-1.846-.915-3.207-.254-4.49 1.632-1.072 1.573-.821 3.687-1.144 5.711-.125.604-.424 1.615-.69 2.18-.09.191-.125.347-.121.475-.994.193-.875 1.936.328 2.082 1.617.194 4.781.183 6.77.992-2.631.832-7.227.52-9.222.236-3.304-.469-.912-2.199-.554-3.86.201-.931-.539-1.674-1.118-2.283-2.043-2.15 1.518-3.229 2.458-4.146.767-.751.481-1.924.204-2.798-.698-2.209-3.751-3.623-.763-5.854 1.291-.963 2.762-1.558 3.934-2.693.972-.941-.511-2.422-1.482-1.482-2.67 2.584-7.32 3.51-5.348 8.175.264.625 2.536 2.915 1.34 3.659-1.013.633-1.974 1.129-2.846 1.963-1.206 1.152-.598 2.984.406 4.021 2 2.064-1.109 2.731-.505 4.925.499 1.812 3.417 2.479 4.968 2.568 3.238.188 8.627.556 11.313-1.583.469-.373.342-1.089 0-1.482-1.561-1.791-4.914-2.075-7.61-2.281.474-.146.98-.33 1.484-.547 1.942-.826 4.05-2.158 4.755-3.417 1.218-2.176 1.112-3.541-.112-4.78l8.511-12.502-.007-.01zM9.799 22.808c.011-.033.028-.076.053-.13.215-.457.448-1.171.606-1.772.606.087 1.301.019 1.946-.191.012.331.014.704.014 1.037.001.142.001.281.002.412-1.464.586-2.323.69-2.621.644z"/></svg>
+        </button>
+      </div>
+      <div class="tool-divider"></div>
+      <div class="tool-section">
+        <button class="tool-btn" data-tool="eraser" data-theme-icon="eraser" title="Eraser">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M9 9l6 6M15 9l-6 6" stroke-width="2.5"/></svg>
+        </button>
+        <button class="tool-btn tool-flyout-main" id="cropBtn" data-theme-icon="crop" title="Crop image (C) — Right-click for Perspective and Slice">
+          <svg fill="#ffffff" width="20" height="20" viewBox="0 0 56 56"><path d="M20.5586 42.3554H38.6524V51.6601C38.6524 52.832 39.4024 53.6289 40.5508 53.6289C41.6758 53.6289 42.4258 52.832 42.4258 51.6601V42.3554H51.8479C52.9725 42.3554 53.6992 41.6992 53.6992 40.5976C53.6992 39.4961 52.9725 38.8398 51.8479 38.8398H42.4258V20.5351C42.4258 15.8476 40.1758 13.6445 35.4414 13.6445H17.3477V4.3398C17.3477 3.1679 16.5977 2.3711 15.4726 2.3711C14.3242 2.3711 13.5742 3.1679 13.5742 4.3398V13.6445H4.1758C3.0273 13.6445 2.3008 14.3242 2.3008 15.4023C2.3008 16.5273 3.0273 17.1601 4.1758 17.1601H13.5742V35.4648C13.5742 40.1523 15.8242 42.3554 20.5586 42.3554zM20.8633 38.8398C18.4492 38.8398 17.3477 37.5508 17.3477 35.2773V17.1601H35.1367C37.5508 17.1601 38.6524 18.4726 38.6524 20.7461V38.8398H20.8633z"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="bgremove" data-theme-icon="remove-background" title="BG Remover (G)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M6 16.938v2.121L5.059 20H2.939L6 16.938zM22.002 14.435v2.122L18.56 20h-.566l.001-1.557 4.007-4.008zM8.75 14h6.495c.918 0 1.671.707 1.744 1.607l.006.143V20H7v-4.25c0-.918.707-1.671 1.606-1.744L8.75 14zM8.021 10.416c.06.579.243 1.121.523 1.599L2 18.56v-2.122l6.021-6.022zM22.002 9.932v2.123l-4.008 4.01.001-.315-.005-.168a3.736 3.736 0 00-.387-1.247l4.399-4.403zM12.057 4L2 14.06v-2.121L9.936 4h2.121zM22.002 5.432v2.123l-5.667 5.67a3.72 3.72 0 00-.86-.215l-.23-.01-.599.001c.341-.303.631-.662.854-1.063l6.502-6.506zM12 7c1.657 0 3 1.344 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3zM7.559 4L2 9.56V7.438L5.438 4h2.121zM21.057 4L15.91 9.149a3.97 3.97 0 00-.653-1.471L18.935 4h2.122zM16.559 4l-2.544 2.544a3.96 3.96 0 00-1.599-.522L14.437 4h2.122z"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="bucket" data-theme-icon="bucket" title="Paint Bucket (K)">
+          <svg width="20" height="20" viewBox="0 0 17 17" fill="#ffffff"><path d="M16.701 9.818L7.833.894l-.134.133A3.52 3.52 0 005.206 0a3.53 3.53 0 00-2.513 1.041 3.532 3.532 0 00-1.042 2.514c0 .941.366 1.825 1.027 2.493L.47 8.257A1.59 1.59 0 000 9.39c0 .429.166.83.467 1.13l4.811 4.859c.302.302.704.469 1.131.469.429 0 .831-.168 1.133-.471L13.1 9.819l3.601-.001zM2.651 3.554c0-.682.266-1.323.749-1.806A2.535 2.535 0 015.205 1c.674 0 1.306.262 1.786.734L3.386 5.341a2.527 2.527 0 01-.735-1.787zm4.182 11.117a.606.606 0 01-.847.003L2.35 11h8.154l-3.671 3.671zM11.504 10H1.359l-.183-.186A.592.592 0 011 9.391c0-.161.063-.312.177-.427L7.831 2.31l6.468 6.509-1.614.001L11.504 10zm4.184 1.959l-.407-.604-.418.598c-.319.457-1.363 2.011-1.363 2.798 0 .965.785 1.75 1.75 1.75S17 15.715 17 14.75c0-.782-1.004-2.334-1.312-2.791zM15.25 15.5a.75.75 0 01-.75-.75c0-.24.349-.92.766-1.591.4.67.734 1.349.734 1.591a.75.75 0 01-.75.75z"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="eyedropper" data-theme-icon="eyedropper" title="Canvas Eyedropper (Y) — Shift-click for Stroke / Outline">
+          <svg width="25" height="25" viewBox="0 0 100 100"><path style="fill:#B6CBE2;stroke:#ffffff;stroke-width:2" d="M50 45L15 80l-2 5a2 2 0 102 2l5-2 35-35z"/><path style="fill:#666;stroke:#ffffff;stroke-width:3" d="M45 40l15 15 5-5-2.5-2.5 10-10a5 5 0 00-10-10l-10 10L50 35z"/></svg>
+        </button>
+      </div>
+      <div class="toolbar-spacer"></div>
+      <div class="tool-section">
+        <label class="color-pick-wrapper" title="Fill Color">
+          <input type="color" id="fillColor" value="#7C3AED">
+          <span class="color-preview" id="fillPreview" style="background:#7C3AED"></span>
+        </label>
+        <label class="color-pick-wrapper" title="Stroke Color">
+          <input type="color" id="strokeColor" value="#ffffff">
+          <span class="color-preview" id="strokePreview" style="background:#ffffff"></span>
+        </label>
+      </div>
+    </aside>
+
+    <div class="shape-tool-flyout" id="textToolFlyout" role="menu" aria-label="Text direction tools">
+      <button type="button" data-text-tool="text" role="menuitem" title="Horizontal Text (T)">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16M12 5v14M8 19h8"/></svg>
+        <span>Horizontal Text</span><kbd>T</kbd>
+      </button>
+      <button type="button" data-text-tool="vertical-text" role="menuitem" title="Vertical Text">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v18M3 6l3-3 3 3M3 18l3 3 3-3M13 4h8M17 4v16M13 20h8"/></svg>
+        <span>Vertical Text</span><kbd></kbd>
+      </button>
+    </div>
+
+    <div class="shape-tool-flyout" id="shapeToolFlyout" role="menu" aria-label="More shape tools">
+      <button type="button" data-shape-tool="rect" role="menuitem" title="Rectangle (R)">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="1"/></svg>
+        <span>Rectangle</span><kbd>R</kbd>
+      </button>
+      <button type="button" data-shape-tool="circle" role="menuitem" title="Ellipse (E)">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="12" rx="10" ry="8"/></svg>
+        <span>Ellipse</span><kbd>E</kbd>
+      </button>
+      <button type="button" data-shape-tool="triangle" role="menuitem" title="Triangle">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3L22 21H2z"/></svg>
+        <span>Triangle</span><kbd></kbd>
+      </button>
+      <button type="button" data-shape-tool="polygon" role="menuitem" title="Polygon">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h10l5 9-5 9H7l-5-9z"/></svg>
+        <span>Polygon</span><kbd></kbd>
+      </button>
+      <button type="button" data-shape-tool="line" role="menuitem" title="Line (L)">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="19" x2="19" y2="5"/></svg>
+        <span>Line</span><kbd>L</kbd>
+      </button>
+      <button type="button" data-shape-tool="arrow" role="menuitem" title="Arrow (A)">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="12,5 19,5 19,12"/></svg>
+        <span>Arrow</span><kbd>A</kbd>
+      </button>
+      <button type="button" data-shape-tool="bubble" role="menuitem" title="Speech Bubble (B)">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <span>Speech Bubble</span><kbd>B</kbd>
+      </button>
+    </div>
+
+    <div class="shape-tool-flyout" id="cropToolFlyout" role="menu" aria-label="Crop and slice tools">
+      <button type="button" id="cropFlyoutStandard" data-crop-tool="crop" role="menuitem" title="Crop Image (C)">
+        <svg width="19" height="19" viewBox="0 0 56 56" fill="currentColor"><path d="M20.5586 42.3554H38.6524V51.6601C38.6524 52.832 39.4024 53.6289 40.5508 53.6289C41.6758 53.6289 42.4258 52.832 42.4258 51.6601V42.3554H51.8479C52.9725 42.3554 53.6992 41.6992 53.6992 40.5976C53.6992 39.4961 52.9725 38.8398 51.8479 38.8398H42.4258V20.5351C42.4258 15.8476 40.1758 13.6445 35.4414 13.6445H17.3477V4.3398C17.3477 3.1679 16.5977 2.3711 15.4726 2.3711C14.3242 2.3711 13.5742 3.1679 13.5742 4.3398V13.6445H4.1758C3.0273 13.6445 2.3008 14.3242 2.3008 15.4023C2.3008 16.5273 3.0273 17.1601 4.1758 17.1601H13.5742V35.4648C13.5742 40.1523 15.8242 42.3554 20.5586 42.3554ZM20.8633 38.8398C18.4492 38.8398 17.3477 37.5508 17.3477 35.2773V17.1601H35.1367C37.5508 17.1601 38.6524 18.4726 38.6524 20.7461V38.8398Z"/></svg>
+        <span>Crop</span><kbd>C</kbd>
+      </button>
+      <button type="button" id="perspectiveCropBtn" data-crop-tool="perspective" role="menuitem" title="Perspective Correction (P)">
+        <svg width="19" height="19" viewBox="0 0 32 32" fill="currentColor"><path d="M7 25h4v2H5v-6h2v4zM7 7h4V5H5v6h2V7zM21 5v2h4v4h2V5h-6zM25 25h-4v2h6v-6h-2v4zM8 8h16v16H8V8zm2 14h12V10H10v12z"/></svg>
+        <span>Perspective</span><kbd>P</kbd>
+      </button>
+      <button type="button" id="sliceToolBtn" data-crop-tool="slice" role="menuitem" title="Slice Image">
+        <svg width="19" height="19" viewBox="0 0 17 17" fill="currentColor"><path d="M16.561 3.844L15.158 2.44c-.563-.565-1.554-.567-2.121 0L.449 15.032l5.434-.003 2.183-2.168.824.775 7.671-7.672c.283-.282.439-.659.439-1.06s-.156-.777-.439-1.06zM6.776 10.116l.824-.824 2.109 2.109-.823.825-2.11-2.11zm-1.305 3.913l-2.608.001 3.206-3.207 1.311 1.311-1.909 1.895zM15.854 5.258l-5.437 5.437-2.11-2.11 5.437-5.438a.499.499 0 01.707-.001l1.403 1.404a.5.5 0 010 .708z"/></svg>
+        <span>Slice</span><kbd></kbd>
+      </button>
+    </div>
+
+    <!-- Canvas Area -->
+    <main class="canvas-area" id="canvasArea">
+      <canvas class="canvas-ruler canvas-ruler-h" id="rulerHorizontal" aria-label="Horizontal ruler" title="Drag down to create a horizontal guide"></canvas>
+      <canvas class="canvas-ruler canvas-ruler-v" id="rulerVertical" aria-label="Vertical ruler" title="Drag right to create a vertical guide"></canvas>
+      <div class="ruler-corner" id="rulerCorner" title="Rulers use canvas pixels"></div>
+      <div class="canvas-wrapper" id="canvasWrapper">
+        <canvas id="mainCanvas"></canvas>
+      </div>
+      <div class="workspace-transform-overlay" id="workspaceTransformOverlay" aria-hidden="true">
+        <svg class="workspace-transform-lines" width="100%" height="100%" aria-hidden="true">
+          <path class="workspace-transform-border workspace-transform-border-outer" id="workspaceTransformBorderOuter"></path>
+          <path class="workspace-transform-border workspace-transform-border-inner" id="workspaceTransformBorderInner"></path>
+          <path class="workspace-transform-rotation-line workspace-transform-rotation-line-outer" id="workspaceTransformRotationOuter"></path>
+          <path class="workspace-transform-rotation-line workspace-transform-rotation-line-inner" id="workspaceTransformRotationInner"></path>
+        </svg>
+        <div class="workspace-transform-handles" id="workspaceTransformHandles"></div>
+      </div>
+      <div class="canvas-info">
+        <span>1920 × 1080</span>
+        <span id="objectCount">0 objects</span>
+      </div>
+
+      <div class="brush-studio-bar" id="brushStudioBar" style="display:none" aria-label="Brush Studio controls">
+        <div class="brush-studio-top">
+          <span class="brush-studio-title">Brush Studio</span>
+          <div class="brush-preset-list" id="brushPresetList" role="group" aria-label="Brush presets">
+            <button class="brush-preset active" data-brush-preset="hard-round" title="Hard Round"><span></span></button>
+            <button class="brush-preset" data-brush-preset="soft-round" title="Soft Round"><span></span></button>
+            <button class="brush-preset" data-brush-preset="airbrush" title="Airbrush"><span></span></button>
+            <button class="brush-preset" data-brush-preset="marker" title="Marker"><span></span></button>
+            <button class="brush-preset" data-brush-preset="highlighter" title="Highlighter"><span></span></button>
+            <button class="brush-preset" data-brush-preset="glow" title="Glow Brush"><span></span></button>
+            <button class="brush-preset" data-brush-preset="spray" title="Spray Paint"><span></span></button>
+            <button class="brush-preset" data-brush-preset="texture" title="Texture Brush"><span></span></button>
+          </div>
+          <div class="brush-studio-actions">
+            <button type="button" id="brushNewLayer" title="Create a new paint layer">New Layer</button>
+            <button type="button" id="brushErase" title="Erase pixels from this paint layer">Erase</button>
+            <button type="button" id="brushClearLayer" title="Clear the active paint layer">Clear</button>
+            <button type="button" class="brush-done" id="brushDone">Done</button>
+          </div>
+        </div>
+        <div class="brush-studio-controls">
+          <label class="brush-color-control" title="Brush color"><input type="color" id="brushColor" value="#000000"><span id="brushColorPreview" style="background:#000000"></span></label>
+          <label>Size <input type="range" id="brushSize" min="1" max="400" value="40"><output id="brushSizeValue">40</output></label>
+          <label>Hard <input type="range" id="brushHardness" min="0" max="100" value="100"><output id="brushHardnessValue">100%</output></label>
+          <label>Opacity <input type="range" id="brushOpacity" min="1" max="100" value="100"><output id="brushOpacityValue">100%</output></label>
+          <label>Flow <input type="range" id="brushFlow" min="1" max="100" value="100"><output id="brushFlowValue">100%</output></label>
+          <label>Spacing <input type="range" id="brushSpacing" min="5" max="100" value="15"><output id="brushSpacingValue">15%</output></label>
+          <label>Smooth <input type="range" id="brushSmoothing" min="0" max="100" value="55"><output id="brushSmoothingValue">55%</output></label>
+        </div>
+      </div>
+    </main>
+
+    <!-- Perspective Crop Actions -->
+    <div class="persp-actions" id="perspActions" style="display:none">
+      <span class="persp-hint" id="perspHint">Drag the four corners around the area to straighten</span>
+      <button class="persp-btn persp-reset" id="perspReset">Reset</button>
+      <button class="persp-btn persp-apply" id="perspApply">✓ Apply</button>
+      <button class="persp-btn persp-cancel" id="perspCancel">✕ Cancel</button>
+    </div>
+
+    <!-- Standard non-destructive crop actions -->
+    <div class="crop-actions" id="cropActions" style="display:none">
+      <span class="crop-hint" id="cropHint">Drag or resize the crop frame</span>
+      <div class="crop-ratios" role="group" aria-label="Crop aspect ratio">
+        <button class="crop-ratio active" data-crop-ratio="free">Free</button>
+        <button class="crop-ratio" data-crop-ratio="original">Original</button>
+        <button class="crop-ratio" data-crop-ratio="16:9">16:9</button>
+        <button class="crop-ratio" data-crop-ratio="1:1">1:1</button>
+        <button class="crop-ratio" data-crop-ratio="4:5">4:5</button>
+        <button class="crop-ratio" data-crop-ratio="9:16">9:16</button>
+      </div>
+      <button class="persp-btn persp-reset" id="cropReset">Reset</button>
+      <button class="persp-btn persp-apply" id="cropApply">✓ Apply</button>
+      <button class="persp-btn persp-cancel" id="cropCancel">✕ Cancel</button>
+    </div>
+
+    <div class="slice-actions" id="sliceActions" style="display:none">
+      <span class="persp-hint" id="sliceHint">Draw a line across the selected image. Horizontal, vertical, and 45° cuts snap automatically.</span>
+      <button class="persp-btn persp-cancel" id="sliceCancel">✕ Cancel</button>
+    </div>
+
+    <!-- Right Panel -->
+    <aside class="panel">
+      <!-- Background -->
+      <div class="panel-section panel-fixed-section panel-background-section" id="bgPanel">
+        <h3 class="panel-header">Background</h3>
+        <div class="panel-content">
+          <div class="bg-type-row">
+            <button class="bg-type-btn active" data-bgtype="solid">Solid</button>
+            <button class="bg-type-btn" data-bgtype="linear">Linear</button>
+            <button class="bg-type-btn" data-bgtype="radial">Radial</button>
+          </div>
+          <div class="bg-colors-row">
+            <label class="bg-color-label">Color 1
+              <input type="color" id="bgColor1" value="#ffffff">
+            </label>
+            <label class="bg-color-label" id="bgColor2Label" style="display:none">Color 2
+              <input type="color" id="bgColor2" value="#7C3AED">
+            </label>
+            <label class="bg-color-label" id="bgAngleLabel" style="display:none">Angle
+              <input type="range" id="bgAngle" min="0" max="360" value="180" class="bg-angle-slider">
+              <span id="bgAngleVal" class="bg-angle-val">180°</span>
+            </label>
+          </div>
+          <button class="bg-apply-btn" id="bgApplyBtn">Apply to Canvas</button>
+        </div>
+      </div>
+      <!-- Text Presets -->
+      <div class="panel-section panel-fixed-section panel-text-styles-section" id="textPresetsPanel">
+        <h3 class="panel-header">Text Styles</h3>
+        <div class="panel-content">
+          <div class="preset-grid" id="presetGrid"></div>
+        </div>
+      </div>
+
+      <!-- Workspace panels: the active tab changes without moving the fixed sections -->
+      <div class="right-panel-tabs" id="rightPanelTabs">
+        <div class="panel-tab-bar" role="tablist" aria-label="Editor panels">
+          <button class="panel-tab active" id="layersTab" type="button" role="tab" aria-selected="true" aria-controls="layersPanel" data-panel-tab="layers">
+            Layers <span class="layer-count" id="layerCount">0</span>
+          </button>
+          <button class="panel-tab" id="propertiesTab" type="button" role="tab" aria-selected="false" aria-controls="propertiesPanel" data-panel-tab="properties" tabindex="-1">Properties</button>
+          <button class="panel-tab" id="adjustmentsTab" type="button" role="tab" aria-selected="false" aria-controls="filtersPanel" data-panel-tab="adjustments" tabindex="-1">Adjustments</button>
+        </div>
+
+        <!-- Layers -->
+        <section class="panel-tab-view layers-panel active" id="layersPanel" role="tabpanel" aria-labelledby="layersTab" data-panel-view="layers">
+          <div class="layers-appearance-bar" id="layersAppearanceBar">
+            <label class="layers-appearance-control layers-blend-control">
+              <span>Blend</span>
+              <select id="layersBlendMode" aria-label="Selected layer blend mode" disabled>
+                <option value="" hidden>Mixed</option>
+                <option value="source-over">Normal</option>
+                <option value="multiply">Multiply</option>
+                <option value="screen">Screen</option>
+                <option value="overlay">Overlay</option>
+                <option value="darken">Darken</option>
+                <option value="lighten">Lighten</option>
+                <option value="color-dodge">Color Dodge</option>
+                <option value="color-burn">Color Burn</option>
+                <option value="hard-light">Hard Light</option>
+                <option value="soft-light">Soft Light</option>
+                <option value="difference">Difference</option>
+                <option value="exclusion">Exclusion</option>
+                <option value="hue">Hue</option>
+                <option value="saturation">Saturation</option>
+                <option value="color">Color</option>
+                <option value="luminosity">Luminosity</option>
+              </select>
+            </label>
+            <div class="layers-appearance-control layers-opacity-control">
+              <span>Opacity</span>
+              <div class="layers-opacity-picker" id="layersOpacityPicker">
+                <div class="layers-opacity-input-wrap" id="layersOpacityInputWrap">
+                  <input id="layersOpacity" type="number" min="0" max="100" step="1" value="100" placeholder="Mixed" aria-label="Selected layer opacity percentage" disabled>
+                  <b>%</b>
+                  <button type="button" id="layersOpacityDisclosure" aria-label="Show opacity slider" aria-expanded="false" aria-controls="layersOpacityPopover" disabled>&#9662;</button>
+                </div>
+                <div class="layers-opacity-popover" id="layersOpacityPopover" role="group" aria-label="Opacity slider" hidden>
+                  <div class="layers-opacity-popover-heading"><span>Opacity</span><output id="layersOpacitySliderValue">100%</output></div>
+                  <input class="layers-opacity-slider" id="layersOpacitySlider" type="range" min="0" max="100" step="1" value="100" aria-label="Selected layer opacity" disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-content layers-list" id="layersList"></div>
+        </section>
+
+        <!-- Properties -->
+        <section class="panel-tab-view" id="propertiesPanel" role="tabpanel" aria-labelledby="propertiesTab" data-panel-view="properties" hidden>
+          <div class="panel-content" id="propertiesContent">
+            <div class="empty-state">Select an object to edit</div>
+          </div>
+        </section>
+
+        <!-- Adjustments -->
+        <section class="panel-tab-view adjustments-unavailable" id="filtersPanel" role="tabpanel" aria-labelledby="adjustmentsTab" data-panel-view="adjustments" hidden>
+          <div class="empty-state adjustments-empty" id="adjustmentsEmpty">Select an image layer to use adjustments</div>
+          <div class="panel-content" id="filtersContent"></div>
+        </section>
+      </div>
+
+      <!-- Templates -->
+      <div class="panel-section panel-fixed-section panel-templates-section">
+        <div class="template-panel-heading">
+          <h3 class="panel-header">Templates</h3>
+          <button type="button" class="save-template-btn" id="saveTemplateBtn" title="Save the current canvas as an editable template"><span aria-hidden="true">+</span> Save as Template</button>
+        </div>
+        <div class="panel-content">
+          <div class="template-filters" id="templateFilters" role="group" aria-label="Template filters">
+            <button type="button" class="active" data-template-filter="all">All</button>
+            <button type="button" data-template-filter="mine">My Templates</button>
+            <button type="button" data-template-filter="youtube">YouTube</button>
+            <button type="button" data-template-filter="shorts">Shorts</button>
+          </div>
+          <div class="template-sections" id="templateGrid"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Clatasha Click Check -->
+  <aside class="click-check-drawer" id="clickCheckDrawer" aria-hidden="true" aria-labelledby="clickCheckTitle">
+    <div class="click-check-header">
+      <div>
+        <div class="click-check-kicker">THUMBNAIL TEST LAB</div>
+        <h2 id="clickCheckTitle">Clatasha Click Check</h2>
+      </div>
+      <button class="click-check-close" id="clickCheckClose" aria-label="Close Click Check" title="Close">&times;</button>
+    </div>
+
+    <div class="click-check-scroll">
+      <section class="click-check-section">
+        <div class="click-check-section-heading">
+          <span>Real Size Preview</span>
+          <button class="click-check-refresh" id="clickCheckRefresh">Refresh</button>
+        </div>
+        <div class="click-check-toggle-row" role="group" aria-label="Preview size">
+          <button class="click-check-toggle active" data-check-size="mobile">Mobile</button>
+          <button class="click-check-toggle" data-check-size="desktop">Desktop</button>
+        </div>
+        <div class="click-check-toggle-row" role="group" aria-label="YouTube theme">
+          <button class="click-check-toggle active" data-check-theme="dark">Dark</button>
+          <button class="click-check-toggle" data-check-theme="light">Light</button>
+        </div>
+        <div class="youtube-preview dark mobile" id="youtubePreview">
+          <div class="youtube-thumb-wrap">
+            <img id="clickCheckPreviewImage" alt="Current thumbnail preview">
+            <span class="youtube-duration" id="clickCheckDurationBadge">12:34</span>
+          </div>
+          <div class="youtube-preview-meta">
+            <span class="youtube-avatar"></span>
+            <div class="youtube-copy">
+              <strong>Your video title appears here</strong>
+              <span>Your channel &middot; 12K views</span>
+            </div>
+          </div>
+        </div>
+        <label class="click-check-duration-label">Duration badge
+          <input id="clickCheckDuration" type="text" value="12:34" maxlength="8" spellcheck="false">
+        </label>
+      </section>
+
+      <section class="click-check-section">
+        <div class="click-check-section-heading"><span>Visual Tests</span></div>
+        <div class="click-check-test-row">
+          <button class="click-check-test" data-check-filter="blur">Squint Test</button>
+          <button class="click-check-test" data-check-filter="grayscale">Grayscale</button>
+        </div>
+        <p class="click-check-note">These tests affect the preview only. Your canvas remains unchanged.</p>
+      </section>
+
+      <section class="click-check-section click-check-results">
+        <div class="click-check-score-wrap">
+          <div class="click-check-score" id="clickCheckScore">100</div>
+          <div><strong>Readability &amp; Image Check</strong><span id="clickCheckScoreLabel">Ready to check</span></div>
+        </div>
+        <p class="click-check-analysis-note">Checks editable text, image resolution, scaling, placement, transparency and rendered tonal range.</p>
+        <div class="click-check-scan-summary" id="clickCheckScanSummary">Waiting for the canvas scan.</div>
+        <div class="click-check-issues" id="clickCheckIssues"></div>
+        <p class="click-check-disclaimer">This is a conservative offline design check, not a prediction of clicks or views.</p>
+      </section>
+
+      <section class="click-check-section">
+        <div class="click-check-section-heading"><span>A, B and C Variations</span><small>Current session</small></div>
+        <div class="click-check-variants" id="clickCheckVariants">
+          <button class="click-check-variant" data-check-variant="A"><span class="variant-letter">A</span><span class="variant-preview">Capture</span></button>
+          <button class="click-check-variant" data-check-variant="B"><span class="variant-letter">B</span><span class="variant-preview">Capture</span></button>
+          <button class="click-check-variant" data-check-variant="C"><span class="variant-letter">C</span><span class="variant-preview">Capture</span></button>
+        </div>
+        <button class="click-check-export-all" id="clickCheckExportAll" disabled>Export Captured Variations</button>
+      </section>
+    </div>
+  </aside>
+
+  <!-- Dropdown Menus (File/Edit/View/Workspace) -->
+  <div class="dropdown-menu" id="menu-file" style="display:none">
+    <button data-action="newProject"><span class="shortcut">Ctrl+N</span>New Project</button>
+    <button data-action="saveProject"><span class="shortcut">Ctrl+S</span>Save Project</button>
+    <button data-action="loadProject">Open Saved...</button>
+    <div class="menu-separator"></div>
+    <div class="menu-recent-header">Recent Projects</div>
+    <div id="recentProjectsList"></div>
+    <div class="menu-separator" id="recentSeparator" style="display:none"></div>
+    <button data-action="saveAsClatasha"><span class="shortcut">Ctrl+Shift+S</span>Save As .clatasha</button>
+    <button data-action="importClatasha"><span class="shortcut">Ctrl+O</span>Import Project...</button>
+    <div class="menu-separator"></div>
+    <button data-action="importImage">Import Image...</button>
+    <button data-action="grabVideoFrame">Grab Frame from Video...</button>
+    <div class="menu-separator"></div>
+    <button data-action="exportImage">Export Image...</button>
+    <div class="menu-separator"></div>
+    <button data-action="size1920x1080" id="menuSizeThumb" style="justify-content:space-between"><span>1920 × 1080 (Thumbnail)</span><span class="shortcut" id="sizeThumbCheck">✓</span></button>
+    <button data-action="size1080x1920" id="menuSizeShorts" style="justify-content:space-between"><span>1080 × 1920 (Shorts)</span><span class="shortcut" id="sizeShortsCheck"></span></button>
+  </div>
+  <div class="dropdown-menu" id="menu-edit" style="display:none">
+    <button data-action="undo" id="menuUndo" disabled><span class="shortcut">Ctrl+Z</span>Undo</button>
+    <button data-action="redo" id="menuRedo" disabled><span class="shortcut">Ctrl+Shift+Z</span>Redo</button>
+    <div class="menu-separator"></div>
+    <button data-action="duplicate"><span class="shortcut">Ctrl+D</span>Duplicate</button>
+    <button data-action="delete" id="menuDelete" disabled><span class="shortcut">Del</span>Delete</button>
+    <div class="menu-separator"></div>
+    <button data-action="group" id="menuGroup" disabled><span class="shortcut">Ctrl+G</span>Group Layers</button>
+    <button data-action="ungroup" id="menuUngroup" disabled><span class="shortcut">Ctrl+Shift+G</span>Ungroup Layers</button>
+    <div class="menu-separator"></div>
+    <button data-action="createClippingMask" id="menuCreateClippingMask" disabled><span class="shortcut">Ctrl+Alt+G</span>Create Clipping Mask</button>
+    <button data-action="releaseClippingMask" id="menuReleaseClippingMask" disabled>Release Clipping Mask</button>
+    <div class="menu-separator"></div>
+    <button data-action="selectAll"><span class="shortcut">Ctrl+A</span>Select All</button>
+    <button data-action="deselectAll"><span class="shortcut">Esc</span>Deselect All</button>
+  </div>
+  <div class="dropdown-menu" id="menu-view" style="display:none">
+    <button data-action="clickCheck"><span class="shortcut"></span>Clatasha Click Check</button>
+    <div class="menu-separator"></div>
+    <button data-action="zoomIn"><span class="shortcut">Ctrl++</span>Zoom In</button>
+    <button data-action="zoomOut"><span class="shortcut">Ctrl+-</span>Zoom Out</button>
+    <button data-action="zoomFit">Fit to Screen</button>
+    <button data-action="zoom100">Actual Size (100%)</button>
+    <div class="menu-separator"></div>
+    <button data-action="toggleRulers" id="menuRulers"><span class="shortcut" id="rulersShortcut">&#10003;</span>Show Rulers</button>
+    <button data-action="toggleGuides" id="menuGuides"><span class="shortcut" id="guidesShortcut">&#10003;</span>Show Guides</button>
+    <button data-action="clearGuides" id="menuClearGuides"><span class="shortcut"></span>Clear Movable Guides</button>
+    <button data-action="toggleSnap" id="menuSnap"><span class="shortcut" id="snapShortcut">&#10003;</span>Snap to Guides &amp; Objects</button>
+  </div>
+  <div class="dropdown-menu workspace-menu" id="menu-workspace" style="display:none">
+    <button type="button" data-action="saveAsTemplate"><span class="workspace-theme-label"><span class="workspace-menu-icon">+</span>Save as Template</span></button>
+    <div class="menu-separator"></div>
+    <button type="button" class="workspace-submenu-trigger" id="workspaceThemesTrigger" aria-haspopup="menu" aria-expanded="false">
+      <span class="workspace-theme-label"><span class="workspace-menu-icon">&#9670;</span>Themes</span>
+      <span class="workspace-menu-arrow" aria-hidden="true">&#8250;</span>
+    </button>
+  </div>
+  <div class="dropdown-menu workspace-theme-submenu" id="menu-workspace-themes" role="menu" aria-label="Workspace themes" style="display:none">
+    <div class="menu-recent-header">Themes</div>
+    <button type="button" data-workspace-theme="default">
+      <span class="workspace-theme-label"><span class="workspace-theme-swatch theme-swatch-default"></span>Default</span>
+      <span class="shortcut workspace-theme-check" id="themeDefaultCheck">&#10003;</span>
+    </button>
+    <button type="button" data-workspace-theme="bowetech">
+      <span class="workspace-theme-label"><span class="workspace-theme-swatch theme-swatch-bowetech"></span>Bowetech</span>
+      <span class="shortcut workspace-theme-check" id="themeBowetechCheck"></span>
+    </button>
+  </div>
+  <div class="dropdown-menu plugins-menu" id="menu-plugins" style="display:none">
+    <button type="button" id="menuManagePlugins">Manage Plugins...</button>
+    <button type="button" id="menuInstallPlugin">Install Plugin...</button>
+    <div class="menu-separator"></div>
+    <div class="menu-recent-header">Enabled Plugins</div>
+    <div id="pluginMenuItems"></div>
+    <div class="plugin-menu-empty" id="pluginMenuEmpty" hidden>No enabled plugins</div>
+    <div class="menu-separator"></div>
+    <button type="button" id="menuPluginDeveloper">Developer Documentation</button>
+  </div>
+  <div class="dropdown-menu help-menu" id="menu-help" style="display:none">
+    <button data-action="openGuide">Clatasha Guide</button>
+    <button data-action="openUpdates">Updates</button>
+    <div class="menu-separator"></div>
+    <button data-action="openAbout">About Clatasha</button>
+  </div>
+
+  <!-- File Input (hidden) -->
+  <input type="file" id="fileInput" accept="image/*,.svg" style="display:none">
+  <input type="file" id="videoInput" accept="video/mp4,video/webm,video/ogg,video/x-m4v,.mp4,.webm,.ogv,.m4v" style="display:none">
+  <input type="file" id="replaceImageInput" accept="image/*" style="display:none">
+  <input type="file" id="fontInput" accept=".ttf,.otf,.woff,.woff2" style="display:none">
+  <input type="file" id="clatashaInput" accept=".clatasha" style="display:none">
+  <input type="file" id="pluginInstallInput" accept=".clatasha-plugin" style="display:none">
+
+  <!-- Save/Load Modal -->
+  <div class="modal-overlay" id="modalOverlay" style="display:none">
+    <div class="modal">
+      <h2 id="modalTitle">Save Project</h2>
+      <div id="modalBody"></div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="modalCancel">Cancel</button>
+        <button class="btn-primary" id="modalConfirm">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Local Video Frame Grabber -->
+  <div class="modal-overlay video-frame-overlay" id="videoFrameOverlay" style="display:none">
+    <div class="modal video-frame-modal" role="dialog" aria-modal="true" aria-labelledby="videoFrameTitle">
+      <div class="video-frame-heading">
+        <div>
+          <div class="video-frame-kicker">LOCAL VIDEO TOOL</div>
+          <h2 id="videoFrameTitle">Grab Frame from Video</h2>
+          <p id="videoFrameFileName">Choose a video to begin</p>
+        </div>
+        <button class="export-close" id="videoFrameClose" title="Close" aria-label="Close video frame grabber">×</button>
+      </div>
+
+      <div class="video-frame-stage">
+        <video id="videoFramePreview" preload="metadata" playsinline muted></video>
+        <div class="video-frame-empty" id="videoFrameEmpty">
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg>
+          <span>Select a local MP4 or WebM video</span>
+        </div>
+        <div class="video-frame-busy" id="videoFrameBusy" hidden><span class="video-frame-spinner"></span><span id="videoFrameBusyText">Reading video...</span></div>
+      </div>
+
+      <div class="video-frame-time-row">
+        <span id="videoFrameCurrentTime">00:00.000</span>
+        <span id="videoFrameResolution">No video loaded</span>
+        <span id="videoFrameDuration">00:00.000</span>
+      </div>
+      <input class="video-frame-timeline" id="videoFrameTimeline" type="range" min="0" max="1000" value="0" step="1" disabled aria-label="Video timeline">
+
+      <div class="video-frame-controls" role="group" aria-label="Video navigation">
+        <button type="button" data-video-step="-1" disabled>−1 sec</button>
+        <button type="button" data-video-frame-step="-1" disabled title="Previous frame">◀ Frame</button>
+        <button type="button" id="videoFramePlay" disabled title="Play or pause video">▶ Play</button>
+        <button type="button" data-video-frame-step="1" disabled title="Next frame">Frame ▶</button>
+        <button type="button" data-video-step="1" disabled>+1 sec</button>
+      </div>
+
+      <section class="video-frame-section">
+        <div class="video-frame-section-heading">
+          <span>Timeline Frames</span>
+          <small>Click a frame to jump to it</small>
+        </div>
+        <div class="video-frame-strip" id="videoFrameStrip"><span class="video-frame-placeholder">Frames will appear here</span></div>
+      </section>
+
+      <section class="video-frame-section">
+        <div class="video-frame-section-heading">
+          <span>Clear Frame Finder</span>
+          <button class="video-frame-find" id="videoFrameFind" disabled>Find Clear Frames</button>
+        </div>
+        <p class="video-frame-note">Checks sampled frames for sharp edges. It runs locally and does not judge the content of the image.</p>
+        <div class="video-frame-candidates" id="videoFrameCandidates"><span class="video-frame-placeholder">Your clearest frame suggestions will appear here</span></div>
+      </section>
+
+      <div class="video-frame-footer">
+        <button class="btn-secondary" id="videoFrameChoose">Choose Video</button>
+        <span class="video-frame-status" id="videoFrameStatus">The video remains on your device.</span>
+        <button class="btn-primary" id="videoFrameAdd" disabled>Add Current Frame</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Export Options -->
+  <div class="modal-overlay" id="exportModalOverlay" style="display:none">
+    <div class="modal export-modal" role="dialog" aria-modal="true" aria-labelledby="exportModalTitle">
+      <div class="export-modal-heading">
+        <div>
+          <h2 id="exportModalTitle">Export Image</h2>
+          <p id="exportDimensions">1920 × 1080 pixels</p>
+        </div>
+        <button class="export-close" id="exportModalClose" title="Close" aria-label="Close export options">×</button>
+      </div>
+
+      <div class="export-option-group">
+        <span class="export-option-label">Format</span>
+        <div class="export-format-row" role="group" aria-label="Image format">
+          <button class="export-format-btn active" data-export-format="png">PNG<span>Lossless</span></button>
+          <button class="export-format-btn" data-export-format="jpeg">JPG<span>Small files</span></button>
+          <button class="export-format-btn" data-export-format="webp">WebP<span>Modern</span></button>
+        </div>
+      </div>
+
+      <div class="export-option-group" id="exportQualityGroup">
+        <div class="export-option-heading">
+          <span class="export-option-label">Quality</span>
+          <span class="export-quality-value" id="exportQualityValue">100%</span>
+        </div>
+        <input type="range" id="exportQuality" min="10" max="100" value="92" step="1">
+        <p class="export-option-note" id="exportQualityNote">PNG uses lossless quality.</p>
+      </div>
+
+      <label class="export-check-row" id="exportTransparentRow">
+        <span>
+          <strong>Transparent background</strong>
+          <small>Hide the canvas background in the exported file</small>
+        </span>
+        <input type="checkbox" id="exportTransparent">
+      </label>
+
+      <div class="modal-actions export-actions">
+        <button class="btn-secondary" id="exportCancel">Cancel</button>
+        <button class="btn-primary" id="exportConfirm">Export PNG</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plugin Manager -->
+  <div class="plugin-overlay" id="pluginManagerOverlay" style="display:none" aria-hidden="true">
+    <div class="plugin-shell plugin-manager-shell" role="dialog" aria-modal="true" aria-labelledby="pluginManagerTitle">
+      <header class="plugin-shell-header">
+        <div class="plugin-shell-heading">
+          <span class="plugin-shell-mark">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 3v4.5H4a1 1 0 0 0-1 1V13h3a2.5 2.5 0 1 1 0 5H3v1.5a1.5 1.5 0 0 0 1.5 1.5H9v-3a2.5 2.5 0 1 1 5 0v3h5.5a1.5 1.5 0 0 0 1.5-1.5V14h-3a2.5 2.5 0 1 1 0-5h3V4.5A1.5 1.5 0 0 0 19.5 3H14v3a2.5 2.5 0 1 1-5 0V3H8.5Z"/></svg>
+          </span>
+          <div><span>CLATASHA EXTENSIONS</span><h2 id="pluginManagerTitle">Manage Plugins</h2></div>
+        </div>
+        <div class="plugin-shell-header-actions">
+          <span class="plugin-api-badge">Plugin API v1</span>
+          <button class="plugin-shell-close" id="pluginManagerClose" type="button" data-plugin-autofocus title="Close" aria-label="Close plugin manager">&times;</button>
+        </div>
+      </header>
+      <main class="plugin-manager-content">
+        <div class="plugin-manager-intro">
+          <div><strong>Make Clatasha Studio your own</strong><p>Enable only the tools you want. Plugin files and image processing stay on your device.</p></div>
+          <div class="plugin-manager-intro-actions">
+            <button type="button" class="primary" id="pluginManagerInstallShortcut">Install Plugin</button>
+            <button type="button" id="pluginManagerDocsShortcut">View API guide</button>
+          </div>
+        </div>
+        <section class="plugin-manager-section">
+          <div class="plugin-manager-section-heading"><div><span>INSTALLED</span><h3>Your plugins</h3></div><small>Changes apply immediately</small></div>
+          <div class="plugin-card-list" id="pluginInstalledList"></div>
+        </section>
+        <section class="plugin-manager-section" id="pluginAvailableSection">
+          <div class="plugin-manager-section-heading"><div><span>BUNDLED PLUGINS</span><h3>Available to install</h3></div><small>Reviewed and included with Clatasha</small></div>
+          <div class="plugin-card-list" id="pluginAvailableList"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Plugin Installation Review -->
+  <div class="plugin-overlay plugin-install-review-overlay" id="pluginInstallReviewOverlay" style="display:none" aria-hidden="true">
+    <div class="plugin-shell plugin-install-review-shell" role="dialog" aria-modal="true" aria-labelledby="pluginInstallReviewTitle">
+      <header class="plugin-shell-header">
+        <div class="plugin-shell-heading">
+          <span class="plugin-shell-mark">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5.5v5.2c0 5 3.4 9.6 8 11.3 4.6-1.7 8-6.3 8-11.3V5.5L12 2Zm3.8 7.4-4.5 5a1 1 0 0 1-1.5 0l-2.1-2.2 1.5-1.4 1.4 1.5 3.7-4.2 1.5 1.3Z"/></svg>
+          </span>
+          <div><span>LOCAL PACKAGE REVIEW</span><h2 id="pluginInstallReviewTitle">Review Plugin</h2></div>
+        </div>
+        <button class="plugin-shell-close" id="pluginInstallReviewClose" type="button" data-plugin-autofocus title="Close" aria-label="Cancel plugin installation">&times;</button>
+      </header>
+      <main class="plugin-install-review-content">
+        <section class="plugin-review-identity">
+          <img id="pluginInstallReviewIcon" src="" alt="">
+          <div><h3 id="pluginInstallReviewName">Plugin</h3><span id="pluginInstallReviewMeta">v1.0.0 · Developer</span><p id="pluginInstallReviewDescription"></p></div>
+        </section>
+        <dl class="plugin-review-file-details">
+          <div><dt>Package</dt><dd id="pluginInstallReviewFile"></dd></div>
+          <div><dt>Size</dt><dd id="pluginInstallReviewSize"></dd></div>
+        </dl>
+        <section class="plugin-review-permissions">
+          <span>REQUESTED ACCESS</span>
+          <h3>What this plugin can do</h3>
+          <ul id="pluginInstallReviewPermissions"></ul>
+        </section>
+        <div class="plugin-review-sandbox-note"><strong>Restricted local sandbox</strong><span>Installed plugins cannot use the network or directly access Clatasha Studio. Only the permissions listed above are available through Plugin API v1.</span></div>
+      </main>
+      <footer class="plugin-install-review-actions">
+        <button type="button" id="pluginInstallCancel">Cancel</button>
+        <button type="button" class="primary" id="pluginInstallConfirm">Install Plugin</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Plugin Runtime -->
+  <div class="plugin-overlay" id="pluginRuntimeOverlay" style="display:none" aria-hidden="true">
+    <div class="plugin-shell plugin-runtime-shell" role="dialog" aria-modal="true" aria-labelledby="pluginRuntimeTitle">
+      <header class="plugin-shell-header plugin-runtime-header">
+        <div class="plugin-shell-heading">
+          <img class="plugin-runtime-icon" id="pluginRuntimeIcon" src="../plugins/image-merger/icon.svg" alt="">
+          <div><span id="pluginRuntimeDetail">Clatasha · v1.0.0</span><h2 id="pluginRuntimeTitle">Plugin</h2></div>
+        </div>
+        <div class="plugin-shell-header-actions">
+          <span class="plugin-api-badge">Runs locally</span>
+          <button class="plugin-shell-close" id="pluginRuntimeClose" type="button" data-plugin-autofocus title="Close" aria-label="Close plugin">&times;</button>
+        </div>
+      </header>
+      <div class="plugin-runtime-mount" id="pluginRuntimeMount"></div>
+    </div>
+  </div>
+
+  <!-- Plugin Developer Documentation -->
+  <div class="plugin-overlay" id="pluginDeveloperOverlay" style="display:none" aria-hidden="true">
+    <div class="plugin-shell plugin-developer-shell" role="dialog" aria-modal="true" aria-labelledby="pluginDeveloperTitle">
+      <header class="plugin-shell-header">
+        <div class="plugin-shell-heading">
+          <span class="plugin-shell-mark code">&lt;/&gt;</span>
+          <div><span>DEVELOPER DOCUMENTATION</span><h2 id="pluginDeveloperTitle">Build for Clatasha Studio</h2></div>
+        </div>
+        <div class="plugin-shell-header-actions">
+          <span class="plugin-api-badge" id="pluginApiVersion">Plugin API v1</span>
+          <button class="plugin-shell-close" id="pluginDeveloperClose" type="button" data-plugin-autofocus title="Close" aria-label="Close developer documentation">&times;</button>
+        </div>
+      </header>
+      <main class="plugin-developer-content">
+        <section class="plugin-doc-hero">
+          <span>VERSIONED AND PERMISSION BASED</span>
+          <h3>A stable path for new Clatasha tools</h3>
+          <p>Plugins receive a small Clatasha API instead of unrestricted access to the editor. That keeps the canvas, undo history, themes, and project format under Clatasha Studio’s control.</p>
+        </section>
+        <div class="plugin-doc-grid">
+          <section class="plugin-doc-card">
+            <span class="plugin-doc-number">01</span><h4>Manifest</h4>
+            <p>Every plugin declares its identity, API version, menu label, entry file, and permissions.</p>
+            <pre><code>{
+  "id": "company.plugin-name",
+  "name": "Plugin Name",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "type": "tool",
+  "runtime": "sandbox",
+  "entry": "plugin.js",
+  "ui": { "html": "plugin.html", "css": "plugin.css" },
+  "menuLabel": "Plugin Name",
+  "icon": "icon.svg",
+  "permissions": ["canvas.addImage"]
+}</code></pre>
+          </section>
+          <section class="plugin-doc-card">
+            <span class="plugin-doc-number">02</span><h4>Lifecycle</h4>
+            <p>An installed tool registers inside a restricted sandbox, follows theme changes, and cleans up everything when closed.</p>
+            <pre><code>ClatashaPlugin.register({
+    mount({ root, api, theme }) {},
+    setTheme(theme) {},
+    destroy() {}
+});</code></pre>
+          </section>
+          <section class="plugin-doc-card">
+            <span class="plugin-doc-number">03</span><h4>Plugin API v1</h4>
+            <ul>
+              <li><code>await canvas.getDocumentSize()</code></li>
+              <li><code>await canvas.getSelectedImage()</code></li>
+              <li><code>await canvas.addImageBlob()</code></li>
+              <li><code>await storage.get() / set()</code></li>
+              <li><code>ui.notify() / close()</code></li>
+            </ul>
+          </section>
+          <section class="plugin-doc-card">
+            <span class="plugin-doc-number">04</span><h4>Release scope</h4>
+            <p>Package the required files at the root of a ZIP archive, then rename it with the <code>.clatasha-plugin</code> extension. Install it from the Plugins menu and review its permissions.</p>
+            <div class="plugin-doc-note">Local packages are validated, stored on this device, and run without network access. Image Merger and Image Cipher are included as bundled reference implementations.</div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Clatasha Help Center -->
+  <div class="help-center-overlay" id="helpCenterOverlay" style="display:none" aria-hidden="true">
+    <div class="help-center-shell" role="dialog" aria-modal="true" aria-labelledby="helpCenterTitle">
+      <header class="help-center-header">
+        <div class="help-center-brand">
+          <img src="../assets/branding/clatasha-logo.png" alt="Clatasha logo" draggable="false">
+          <div>
+            <span class="help-center-kicker">CLATASHA SUPPORT</span>
+            <h2 id="helpCenterTitle">Clatasha Guide</h2>
+          </div>
+        </div>
+        <div class="help-center-header-actions">
+          <span class="help-version-badge" id="helpCurrentVersion">Version 1.0.61</span>
+          <button class="help-center-close" id="helpCenterClose" type="button" title="Close" aria-label="Close Help Center">&times;</button>
+        </div>
+      </header>
+
+      <div class="help-center-layout">
+        <nav class="help-center-nav" aria-label="Help pages">
+          <button class="active" type="button" data-help-page="guide" aria-current="page">
+            <span class="help-nav-icon">?</span><span><strong>Clatasha Guide</strong><small>Tools and features</small></span>
+          </button>
+          <button type="button" data-help-page="updates">
+            <span class="help-nav-icon">&#8635;</span><span><strong>Updates</strong><small>What changed</small></span>
+          </button>
+          <button type="button" data-help-page="about">
+            <span class="help-nav-icon">C</span><span><strong>About Clatasha</strong><small>Company and copyright</small></span>
+          </button>
+        </nav>
+
+        <main class="help-center-content">
+          <section class="help-page active" id="helpPageGuide" data-help-page-content="guide">
+            <div class="help-page-heading">
+              <div><span class="help-page-eyebrow">EDITOR HANDBOOK</span><h3>Clatasha Guide</h3><p>Learn what each toolbar tool does and find the main editor features.</p></div>
+              <label class="help-search"><span aria-hidden="true">&#9906;</span><input id="helpGuideSearch" type="search" placeholder="Search the guide" aria-label="Search the Clatasha Guide"></label>
+            </div>
+            <div id="helpToolSections"></div>
+            <section class="help-guide-section">
+              <h4>Editor Features</h4>
+              <div class="help-feature-grid" id="helpFeatureGrid"></div>
+            </section>
+            <section class="help-guide-section">
+              <h4>Keyboard Shortcuts</h4>
+              <div class="help-shortcut-grid" id="helpShortcutGrid"></div>
+            </section>
+            <div class="help-no-results" id="helpNoResults" hidden>No guide entries match that search.</div>
+          </section>
+
+          <section class="help-page" id="helpPageUpdates" data-help-page-content="updates" hidden>
+            <div class="help-page-heading">
+              <div><span class="help-page-eyebrow">RELEASE NOTES</span><h3>Clatasha Studio Updates</h3><p>Recent additions and fixes, organized by version.</p></div>
+            </div>
+            <div class="help-update-note">Changelog tracking begins with the recent builds listed below.</div>
+            <div class="help-update-timeline" id="helpUpdatesTimeline"></div>
+          </section>
+
+          <section class="help-page help-about-page" id="helpPageAbout" data-help-page-content="about" hidden>
+            <div class="help-about-card">
+              <div class="help-about-logo-wrap"><img src="../assets/branding/clatasha-logo.png" alt="Clatasha company logo" draggable="false"></div>
+              <span class="help-page-eyebrow">CREATED BY CLATASHA</span>
+              <h3>Clatasha Studio</h3>
+              <p class="help-about-version" id="helpAboutVersion">Version 1.0.61</p>
+              <p class="help-about-description">A private, offline design studio made for thumbnails, creator graphics and visual projects directly inside Chrome.</p>
+              <div class="help-about-divider"></div>
+              <p class="help-copyright">&copy; 2011&ndash;2026 Clatasha. All rights reserved.</p>
+              <p class="help-about-credit">Canvas editing technology powered by Fabric.js.</p>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Context Menu -->
+  <div class="ctx-menu" id="ctxMenu" style="display:none"></div>
+
+  <!-- Sticker Picker Popup -->
+  <div class="sticker-popup" id="stickerPopup" style="display:none">
+    <div class="sticker-tabs" id="stickerTabs"></div>
+    <div class="sticker-grid" id="stickerGrid"></div>
+  </div>
+
+  <!-- Drop Overlay -->
+  <div class="drop-overlay" id="dropOverlay" style="display:none">
+    <div class="drop-content">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <p>Drop image here</p>
+    </div>
+  </div>
+
+  <script type="module" src="editor.js?v=1.0.60"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+name: Validate and Package Extension
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate manifest
+        shell: bash
+        run: |
+          node -e "const fs=require('fs'); const manifest=JSON.parse(fs.readFileSync('manifest.json','utf8')); if(manifest.manifest_version!==3) throw new Error('Expected Manifest V3'); if(!/^\\d+\\.\\d+\\.\\d+$/.test(manifest.version)) throw new Error('Invalid extension version'); console.log('Clatasha Studio v' + manifest.version);"
+
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          find editor popup plugins -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | xargs -0 -n1 node --check
+
+      - name: Package unpacked extension
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./manifest.json').version")
+          mkdir -p "dist/Clatasha-Studio-v${VERSION}"
+          cp -R assets editor fonts icons lib plugins popup manifest.json THIRD_PARTY_NOTICES.md "dist/Clatasha-Studio-v${VERSION}/"
+          cd "dist/Clatasha-Studio-v${VERSION}"
+          zip -qr "../Clatasha-Studio-v${VERSION}-Chrome.zip" .
+
+      - name: Upload Chrome extension
+        uses: actions/upload-artifact@v4
+        with:
+          name: Clatasha-Studio-Chrome
+          path: dist/Clatasha-Studio-v*-Chrome.zip
+          if-no-files-found: error

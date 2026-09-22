@@ -1,0 +1,119 @@
+<div class="im-app">
+  <section class="im-source-bar" aria-label="Source images">
+    <article class="im-source-card" id="sourceCard1" tabindex="0" role="button" aria-label="Choose first image">
+      <input id="file1" type="file" accept="image/*" hidden>
+      <img id="thumb1" class="im-source-thumb" alt="First image preview" hidden>
+      <div id="empty1" class="im-source-empty">
+        <span class="im-source-number">01</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="8.5" cy="9" r="1.5"/><path d="m4 17 5-5 3.5 3.5 2.5-2.5 5 5"/></svg>
+        <span><strong>First image</strong><small>Click or drop an image</small></span>
+      </div>
+      <div class="im-source-actions">
+        <button id="selected1" class="im-mini-btn" type="button">Use selected layer</button>
+        <button id="remove1" class="im-icon-btn" type="button" title="Remove first image" aria-label="Remove first image" hidden>&times;</button>
+      </div>
+    </article>
+
+    <button id="swapImages" class="im-swap" type="button" title="Swap images" aria-label="Swap images">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 3-3m-3 3 3 3M7 7h10a3 3 0 0 1 3 3v1M17 17l-3 3m3-3-3-3m3 3H7a3 3 0 0 1-3-3v-1"/></svg>
+      <span>Swap</span>
+    </button>
+
+    <article class="im-source-card" id="sourceCard2" tabindex="0" role="button" aria-label="Choose second image">
+      <input id="file2" type="file" accept="image/*" hidden>
+      <img id="thumb2" class="im-source-thumb" alt="Second image preview" hidden>
+      <div id="empty2" class="im-source-empty">
+        <span class="im-source-number">02</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="8.5" cy="9" r="1.5"/><path d="m4 17 5-5 3.5 3.5 2.5-2.5 5 5"/></svg>
+        <span><strong>Second image</strong><small>Click or drop an image</small></span>
+      </div>
+      <div class="im-source-actions">
+        <button id="selected2" class="im-mini-btn" type="button">Use selected layer</button>
+        <button id="remove2" class="im-icon-btn" type="button" title="Remove second image" aria-label="Remove second image" hidden>&times;</button>
+      </div>
+    </article>
+  </section>
+
+  <div class="im-workspace">
+    <section class="im-preview-panel">
+      <div class="im-panel-heading">
+        <div><span class="im-eyebrow">LIVE PREVIEW</span><strong id="outputLabel">Current canvas</strong></div>
+        <span class="im-drag-hint">Drag either image to reposition it</span>
+      </div>
+      <div class="im-stage" id="stage">
+        <canvas id="mergerCanvas" aria-label="Merged image preview"></canvas>
+        <div id="canvasEmpty" class="im-canvas-empty">
+          <span class="im-empty-mark">+</span>
+          <strong>Add two images to begin</strong>
+          <small>Your files stay on this device</small>
+        </div>
+      </div>
+      <div class="im-preview-footer">
+        <span id="statusText" role="status">Ready for two images</span>
+        <span id="dimensionText">1920 × 1080 px</span>
+      </div>
+    </section>
+
+    <aside class="im-settings" aria-label="Image merger settings">
+      <div class="im-settings-heading"><span class="im-eyebrow">COMPOSITION</span><strong>Merge settings</strong></div>
+
+      <div class="im-control-block">
+        <label>Layout</label>
+        <div class="im-segmented" role="group" aria-label="Layout">
+          <button type="button" data-layout="horizontal" class="active"><span class="im-layout-icon side"></span>Side by side</button>
+          <button type="button" data-layout="vertical"><span class="im-layout-icon stack"></span>Stacked</button>
+        </div>
+      </div>
+
+      <div class="im-control-block">
+        <label>Output size</label>
+        <div class="im-segmented im-three" role="group" aria-label="Output size">
+          <button type="button" data-format="current" class="active">Canvas</button>
+          <button type="button" data-format="16:9">16:9</button>
+          <button type="button" data-format="9:16">9:16</button>
+        </div>
+      </div>
+
+      <div class="im-control-block">
+        <div class="im-label-row"><label for="splitRange">Split position</label><output id="splitValue">50%</output></div>
+        <input id="splitRange" class="im-range" type="range" min="20" max="80" value="50">
+      </div>
+
+      <div class="im-control-block im-divider-block">
+        <div class="im-label-row">
+          <label for="dividerToggle">Divider</label>
+          <label class="im-switch"><input id="dividerToggle" type="checkbox" checked><span></span></label>
+        </div>
+        <div id="dividerOptions" class="im-inline-options">
+          <label class="im-color-field" title="Divider color"><input id="dividerColor" type="color" value="#ffffff"></label>
+          <input id="dividerWidth" class="im-range" type="range" min="0" max="40" value="4">
+          <output id="dividerWidthValue">4 px</output>
+        </div>
+      </div>
+
+      <div class="im-control-block">
+        <label>Background</label>
+        <div class="im-background-row" role="group" aria-label="Background">
+          <button type="button" data-background="black" class="active"><span class="im-bg-chip black"></span>Black</button>
+          <button type="button" data-background="white"><span class="im-bg-chip white"></span>White</button>
+          <button type="button" data-background="transparent"><span class="im-bg-chip transparent"></span>Clear</button>
+        </div>
+      </div>
+
+      <div class="im-tip"><span>Tip</span> The merged result is added as one editable image layer. Your two source images remain unchanged.</div>
+    </aside>
+  </div>
+
+  <footer class="im-footer">
+    <button id="clearAll" class="im-button im-button-quiet" type="button">Clear</button>
+    <div class="im-footer-spacer"></div>
+    <button id="downloadPng" class="im-button im-button-secondary" type="button" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+      Download PNG
+    </button>
+    <button id="addToCanvas" class="im-button im-button-primary" type="button" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+      Add to Canvas
+    </button>
+  </footer>
+</div>

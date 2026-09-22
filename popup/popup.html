@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="popup.css">
+  <title>Clatasha Studio</title>
+</head>
+<body>
+  <div class="popup-container">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="#7C3AED"/>
+          <path d="M8 12h16v2H8zM8 18h12v2H8z" fill="white"/>
+          <circle cx="24" cy="22" r="4" fill="#F59E0B"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <h1>Clatasha Studio</h1>
+        <p>YouTube Thumbnail Creator</p>
+      </div>
+    </div>
+    <button id="openEditor" class="open-btn">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M15 2v4M5 2v4M2 9h16" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      Open Editor
+    </button>
+    <div class="recent-section" id="recentSection" style="display:none;">
+      <h3>Recent Projects</h3>
+      <ul id="recentList"></ul>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

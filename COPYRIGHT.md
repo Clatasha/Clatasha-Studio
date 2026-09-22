@@ -2,8 +2,8 @@
 
 Copyright © 2011–2026 Clatasha. All rights reserved.
 
-Clatasha Studio is proprietary software. The application source code, compiled extension packages, plugins, private artwork, and internal development materials are not distributed through this repository.
+Clatasha Studio's source code is published in this repository for public inspection, testing, and project development. Publication on GitHub does not by itself grant permission to reproduce, redistribute, sell, relicense, or create derivative versions of Clatasha Studio.
 
-This public repository contains project information and progress documentation only. Publication on GitHub does not grant a licence to reproduce, distribute, sell, modify, or create derivative versions of Clatasha Studio.
+Files that contain their own license notice, along with bundled third-party components, remain governed by those notices and licenses. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-Third-party names and components mentioned in project documentation remain the property of their respective owners.
+Clatasha names, logos, mascots, artwork, and other brand assets remain the property of their respective owners.

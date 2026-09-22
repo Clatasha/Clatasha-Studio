@@ -1,0 +1,101 @@
+<div class="ic-app">
+  <header class="ic-hero">
+    <div class="ic-hero-mark" aria-hidden="true">
+      <svg viewBox="0 0 48 48"><rect x="7" y="11" width="29" height="25" rx="4"/><path d="m9 31 8-8 6 6 5-5 6 6"/><circle cx="16" cy="18" r="2.5"/><rect x="27" y="25" width="15" height="14" rx="3"/><path d="M30.5 25v-3a4 4 0 0 1 8 0v3"/></svg>
+    </div>
+    <div class="ic-hero-copy">
+      <span class="ic-eyebrow">PRIVATE · OFFLINE · LOSSLESS</span>
+      <h1>Image Cipher</h1>
+      <p>Protect a message with a password, then conceal it inside an ordinary-looking PNG.</p>
+    </div>
+    <div class="ic-local-badge"><span></span>Runs on this device</div>
+  </header>
+
+  <nav class="ic-tabs" role="tablist" aria-label="Image Cipher mode">
+    <button id="hideTab" class="ic-tab active" type="button" role="tab" aria-selected="true" aria-controls="hidePanel" data-mode="hide">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M8 8V6a4 4 0 0 1 8 0v2M12 12v4"/></svg>
+      Hide a Message
+    </button>
+    <button id="revealTab" class="ic-tab" type="button" role="tab" aria-selected="false" aria-controls="revealPanel" data-mode="reveal">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.7"/></svg>
+      Reveal a Message
+    </button>
+  </nav>
+
+  <main class="ic-main">
+    <section id="hidePanel" class="ic-panel" role="tabpanel" aria-labelledby="hideTab">
+      <div class="ic-work-grid">
+        <section class="ic-image-column">
+          <div class="ic-section-heading"><span>01</span><div><h2>Choose a carrier image</h2><p>PNG, JPG, WebP, and other local images are accepted.</p></div></div>
+          <article id="hideDropzone" class="ic-dropzone" tabindex="0" role="button" aria-label="Choose an image">
+            <input id="hideFile" type="file" accept="image/*" hidden>
+            <img id="hidePreview" class="ic-preview" alt="Carrier image preview" hidden>
+            <div id="hideEmpty" class="ic-drop-empty">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="8" width="36" height="31" rx="6"/><circle cx="17" cy="18" r="3"/><path d="m8 34 11-11 8 8 5-5 8 8"/></svg>
+              <strong>Drop an image here</strong>
+              <small>or click to browse your device</small>
+            </div>
+            <div id="hideImageMeta" class="ic-image-meta" hidden><strong id="hideImageName"></strong><span id="hideImageSize"></span></div>
+          </article>
+          <div class="ic-source-actions">
+            <button id="useSelected" class="ic-button ic-button-quiet" type="button">Use selected Clatasha image</button>
+            <button id="replaceHideImage" class="ic-button ic-button-quiet" type="button" disabled>Replace image</button>
+          </div>
+        </section>
+
+        <section class="ic-form-column">
+          <div class="ic-section-heading"><span>02</span><div><h2>Write and protect</h2><p>The password is never stored in the image or by Clatasha.</p></div></div>
+          <label class="ic-field ic-message-field">
+            <span>Secret message <output id="messageCount">0 bytes</output></span>
+            <textarea id="secretMessage" maxlength="262144" placeholder="Type the private message you want to conceal…"></textarea>
+          </label>
+          <div class="ic-password-grid">
+            <label class="ic-field"><span>Password</span><div class="ic-password-wrap"><input id="hidePassword" type="password" autocomplete="new-password" spellcheck="false" placeholder="At least 8 characters"><button type="button" class="ic-eye" data-toggle-password="hidePassword" aria-label="Show password">Show</button></div></label>
+            <label class="ic-field"><span>Confirm password</span><div class="ic-password-wrap"><input id="confirmPassword" type="password" autocomplete="new-password" spellcheck="false" placeholder="Enter it again"><button type="button" class="ic-eye" data-toggle-password="confirmPassword" aria-label="Show password">Show</button></div></label>
+          </div>
+          <div class="ic-capacity">
+            <div class="ic-capacity-line"><span>Message capacity</span><strong id="capacityText">Choose an image</strong></div>
+            <div class="ic-capacity-track"><span id="capacityBar"></span></div>
+          </div>
+          <div class="ic-security-note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.6 3 7.8 7.5 9.5 4.5-1.7 7.5-4.9 7.5-9.5V6Z"/><path d="m9 12 2 2 4-4"/></svg><span><strong>AES-256-GCM encryption</strong> protects the message before it is placed into the image pixels.</span></div>
+        </section>
+      </div>
+      <footer class="ic-actions">
+        <span id="hideStatus" class="ic-status" role="status">Choose an image to begin</span>
+        <button id="addEncoded" class="ic-button ic-button-secondary" type="button" disabled>Add to Canvas</button>
+        <button id="hideDownload" class="ic-button ic-button-primary" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>Hide &amp; Download PNG</button>
+      </footer>
+    </section>
+
+    <section id="revealPanel" class="ic-panel" role="tabpanel" aria-labelledby="revealTab" hidden>
+      <div class="ic-reveal-grid">
+        <section class="ic-image-column">
+          <div class="ic-section-heading"><span>01</span><div><h2>Choose the encoded PNG</h2><p>Use the original file created by Image Cipher.</p></div></div>
+          <article id="revealDropzone" class="ic-dropzone" tabindex="0" role="button" aria-label="Choose an encoded PNG">
+            <input id="revealFile" type="file" accept="image/png,.png" hidden>
+            <img id="revealPreview" class="ic-preview" alt="Encoded image preview" hidden>
+            <div id="revealEmpty" class="ic-drop-empty">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="8" width="36" height="31" rx="6"/><path d="m8 34 11-11 8 8 5-5 8 8"/><rect x="27" y="22" width="15" height="14" rx="3"/><path d="M30.5 22v-3a4 4 0 0 1 8 0v3"/></svg>
+              <strong>Drop the encoded PNG</strong>
+              <small>the image should be unmodified</small>
+            </div>
+            <div id="revealImageMeta" class="ic-image-meta" hidden><strong id="revealImageName"></strong><span id="revealImageSize"></span></div>
+          </article>
+          <button id="replaceRevealImage" class="ic-button ic-button-quiet ic-replace-alone" type="button" disabled>Choose another image</button>
+        </section>
+
+        <section class="ic-form-column">
+          <div class="ic-section-heading"><span>02</span><div><h2>Unlock the message</h2><p>Enter the same password used when the PNG was created.</p></div></div>
+          <label class="ic-field"><span>Password</span><div class="ic-password-wrap"><input id="revealPassword" type="password" autocomplete="current-password" spellcheck="false" placeholder="Enter the password"><button type="button" class="ic-eye" data-toggle-password="revealPassword" aria-label="Show password">Show</button></div></label>
+          <button id="revealButton" class="ic-button ic-button-primary ic-reveal-button" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.7"/></svg>Reveal Message</button>
+          <div id="revealedArea" class="ic-revealed" hidden>
+            <div class="ic-revealed-heading"><span>Decrypted message</span><button id="copyMessage" type="button">Copy</button></div>
+            <textarea id="revealedMessage" readonly aria-label="Decrypted message"></textarea>
+          </div>
+          <div class="ic-warning-note"><strong>Keep the original PNG.</strong> JPEG conversion, resizing, cropping, filters, and messaging or social platforms may remove the concealed data.</div>
+        </section>
+      </div>
+      <footer class="ic-actions"><span id="revealStatus" class="ic-status" role="status">Choose an encoded PNG to begin</span></footer>
+    </section>
+  </main>
+</div>

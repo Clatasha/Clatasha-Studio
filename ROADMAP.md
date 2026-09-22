@@ -13,6 +13,8 @@ This roadmap tracks broad development goals. It does not promise release dates, 
 - PNG, JPG, and WebP export
 - Default and Bowetech themes
 - Offline Image Merger, Image Cipher, and Image to SVG plugins
+- Locally saved editable templates with generated previews
+- Dedicated YouTube and Shorts template sections
 
 ## Current focus
 
@@ -21,7 +23,7 @@ This roadmap tracks broad development goals. It does not promise release dates, 
 - Improve tracing accuracy and SVG output efficiency
 - Review keyboard access, tooltips, error messages, and first-use guidance
 - Expand internal compatibility and release testing
-- Prepare public documentation without exposing private source code
+- Refine public source documentation and automated package validation
 
 ## Before public availability
 
@@ -43,4 +45,4 @@ These ideas are being considered and are not confirmed release commitments.
 
 ## Public release status
 
-Clatasha Studio remains in private development. No public installer or source package is available from this repository.
+Clatasha Studio's current source is publicly available from this repository. The project remains in active development, and GitHub Actions produces a testable Chrome package artifact from `main`.

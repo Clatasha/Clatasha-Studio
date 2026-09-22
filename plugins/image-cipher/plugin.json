@@ -1,0 +1,22 @@
+{
+  "id": "clatasha.image-cipher",
+  "name": "Clatasha Image Cipher",
+  "version": "1.0.0",
+  "developer": "Clatasha",
+  "description": "Encrypt a private message and conceal it inside a lossless PNG image.",
+  "apiVersion": 1,
+  "type": "tool",
+  "runtime": "sandbox",
+  "entry": "plugin.js",
+  "ui": {
+    "html": "plugin.html",
+    "css": "plugin.css"
+  },
+  "menuLabel": "Image Cipher",
+  "icon": "icon.svg",
+  "permissions": [
+    "files.localImages",
+    "canvas.readSelection",
+    "canvas.addImage"
+  ]
+}
