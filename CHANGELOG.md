@@ -2,6 +2,13 @@
 
 This page records selected Clatasha Studio milestones. It is not a complete internal commit history.
 
+## v1.0.62
+
+- Made the top menus responsive immediately when the editor page opens
+- Isolated menu opening from canvas, plugin, font, and template initialization
+- Restored recent saved projects in the extension popup after the template database upgrade
+- Added safer startup error reporting and refreshed editor script versioning
+
 ## v1.0.61
 
 - Added editable user templates stored locally with lightweight canvas previews

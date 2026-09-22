@@ -2028,6 +2028,9 @@ async function init() {
   const urlParams = new URLSearchParams(window.location.search);
   projectId = urlParams.get('id') || null;
 
+  // Bind menu actions before any canvas, plugin, font, or template work. The
+  // lightweight bootstrap already makes dropdowns open while this module loads.
+  setupMenu();
   setupWorkspaceThemes();
 
   canvas = new Canvas('mainCanvas', {
@@ -2042,7 +2045,6 @@ async function init() {
   setupCanvasEvents();
   setupToolbar();
   setupBrushStudio();
-  setupMenu();
   pluginSystem = createPluginSystem({
     getTheme: () => workspaceTheme,
     getDocumentSize: () => ({ width: CANVAS_W, height: CANVAS_H }),
@@ -10848,26 +10850,39 @@ function zoomToFit() {
 
 // ===== MENUS =====
 let activeMenu = null;
+let menuSetupComplete = false;
 function setupMenu() {
-  document.querySelectorAll('.menu-btn[data-menu]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const menuId = btn.dataset.menu;
-      if (activeMenu === menuId) {
-        closeMenus(); return;
-      }
-      closeMenus();
-      const menu = document.getElementById('menu-' + menuId);
-      const rect = btn.getBoundingClientRect();
-      menu.style.left = rect.left + 'px';
-      menu.style.display = 'block';
-      activeMenu = menuId;
-      // Populate recent projects when File menu opens
-      if (menuId === 'file') populateRecentMenu();
-    });
-  });
+  if (menuSetupComplete) return;
+  menuSetupComplete = true;
 
-  document.addEventListener('click', () => closeMenus());
+  // The early bootstrap owns top-level menu opening. Retain a fallback for
+  // development pages that load editor.js without menu-bootstrap.js.
+  if (!window.ClatashaMenuBootstrap) {
+    document.querySelectorAll('.menu-btn[data-menu]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const menuId = btn.dataset.menu;
+        if (activeMenu === menuId) {
+          closeMenus(); return;
+        }
+        closeMenus();
+        const menu = document.getElementById('menu-' + menuId);
+        if (!menu) return;
+        const rect = btn.getBoundingClientRect();
+        menu.style.left = rect.left + 'px';
+        menu.style.display = 'block';
+        btn.classList.add('active');
+        activeMenu = menuId;
+        if (menuId === 'file') populateRecentMenu();
+      });
+    });
+    document.addEventListener('click', () => closeMenus());
+  } else {
+    document.addEventListener('clatasha:menu-open', event => {
+      activeMenu = event.detail?.menuId || null;
+      if (activeMenu === 'file') populateRecentMenu();
+    });
+  }
 
   document.querySelectorAll('.dropdown-menu button[data-action]').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -10956,7 +10971,12 @@ async function loadRecentProject(id) {
 }
 
 function closeMenus() {
+  window.ClatashaMenuBootstrap?.close();
   document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
+  document.querySelectorAll('.menu-btn[data-menu]').forEach(button => {
+    button.classList.remove('active');
+    button.setAttribute('aria-expanded', 'false');
+  });
   closeWorkspaceThemeSubmenu();
   activeMenu = null;
 }
@@ -10964,9 +10984,9 @@ function closeMenus() {
 // ===== HELP CENTER =====
 function getExtensionVersion() {
   try {
-    return globalThis.chrome?.runtime?.getManifest?.().version || '1.0.61';
+    return globalThis.chrome?.runtime?.getManifest?.().version || '1.0.62';
   } catch (_) {
-    return '1.0.60';
+    return '1.0.62';
   }
 }
 
@@ -14305,4 +14325,7 @@ function playFriendEasterEgg(isPreview = false) {
 }
 
 // ===== BOOT =====
-init();
+init().catch(error => {
+  console.error('Clatasha Studio startup failed:', error);
+  document.body.dataset.startupState = 'error';
+});

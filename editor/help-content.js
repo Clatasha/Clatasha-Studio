@@ -99,6 +99,16 @@ export const CLATASHA_SHORTCUTS = [
 
 export const CLATASHA_CHANGELOG = [
   {
+    version: '1.0.62',
+    label: 'Reliable Editor Menus',
+    changes: [
+      'Made the top menus responsive immediately when the editor opens.',
+      'Separated menu opening from the larger editor startup process.',
+      'Restored recent saved projects in the extension popup after the template database upgrade.',
+      'Added safer startup error reporting and refreshed script versioning.',
+    ],
+  },
+  {
     version: '1.0.61',
     label: 'My Templates and Shorts Layouts',
     changes: [

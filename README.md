@@ -8,7 +8,7 @@ Clatasha Studio is a Chrome extension with a layered canvas editor, offline imag
 
 | Item | Status |
 |---|---|
-| Latest build | v1.0.61 |
+| Latest build | v1.0.62 |
 | Development stage | Active development |
 | Source code | Public |
 | Main platform | Google Chrome and Chromium browsers |

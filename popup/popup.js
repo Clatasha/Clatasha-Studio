@@ -27,12 +27,19 @@ document.getElementById('openEditor').addEventListener('click', () => {
         list.appendChild(li);
       });
     };
-  } catch (e) { /* first install, no DB yet */ }
+    tx.oncomplete = () => db.close();
+    tx.onabort = () => db.close();
+    tx.onerror = () => db.close();
+  } catch (e) {
+    console.error('Unable to load recent projects:', e);
+  }
 })();
 
 function openDB() {
   return new Promise((resolve, reject) => {
-    const req = indexedDB.open('ClatashaStudio', 1);
+    // Open the newest existing schema. Passing the old hard-coded version 1
+    // throws VersionError after the templates update upgraded this DB to v2.
+    const req = indexedDB.open('ClatashaStudio');
     req.onupgradeneeded = (e) => {
       const db = e.target.result;
       if (!db.objectStoreNames.contains('projects')) {

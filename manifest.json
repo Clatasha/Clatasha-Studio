@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Clatasha Studio",
-  "version": "1.0.61",
+  "version": "1.0.62",
   "description": "Clatasha Studio is a Simple Thumbnail Maker For YouTube — fully offline, no APIs needed.",
   "action": {
     "default_popup": "popup/popup.html",
