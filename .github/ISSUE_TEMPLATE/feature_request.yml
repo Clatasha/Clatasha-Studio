@@ -1,0 +1,48 @@
+name: Feature request
+description: Suggest an improvement for Clatasha Studio
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping shape Clatasha Studio. Please describe the editing problem first, then the feature you have in mind.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Explain what is difficult, slow, or currently unavailable.
+      placeholder: When I am editing...
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Proposed feature
+      description: Describe how you expect the feature to work.
+    validations:
+      required: true
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Example workflow
+      description: Give a short step-by-step example if it helps explain the idea.
+    validations:
+      required: false
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area of Clatasha Studio
+      options:
+        - Canvas and transforms
+        - Images and adjustments
+        - Text and styles
+        - Shapes and drawing
+        - Layers and groups
+        - Export
+        - Plugins
+        - Themes and interface
+        - Other
+    validations:
+      required: true
