@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/branding/clatasha-logo.png" width="128" alt="Clatasha logo">
+  <img src="docs/images/clatasha-studio-logo.png" width="220" alt="Clatasha Studio logo">
 </p>
 
 <h1 align="center">Clatasha Studio</h1>
@@ -11,7 +11,7 @@ Clatasha Studio is a Chrome extension with a layered canvas editor, offline imag
 ## Editor preview
 
 <p align="center">
-  <img src="docs/images/clatasha-studio-editor.png" alt="Clatasha Studio editor creating a YouTube thumbnail">
+  <img src="docs/images/clatasha-studio-editor.jpg" width="100%" alt="Clatasha Studio editor creating a YouTube thumbnail">
 </p>
 
 <p align="center"><em>Layer-based thumbnail editing inside the Clatasha Studio Chrome extension.</em></p>
