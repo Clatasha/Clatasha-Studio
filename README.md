@@ -1,8 +1,20 @@
-# Clatasha Studio
+<p align="center">
+  <img src="assets/branding/clatasha-logo.png" width="128" alt="Clatasha logo">
+</p>
 
-**A browser-based image editor for creating YouTube thumbnails, Shorts graphics, social posts, and other visual content.**
+<h1 align="center">Clatasha Studio</h1>
+
+<p align="center"><strong>A browser-based image editor for creating YouTube thumbnails, Shorts graphics, social posts, and other visual content.</strong></p>
 
 Clatasha Studio is a Chrome extension with a layered canvas editor, offline image tools, reusable templates, local project saving, and an expandable plugin system. Its core editor works without accounts, external processing APIs, or image uploads.
+
+## Editor preview
+
+<p align="center">
+  <img src="docs/images/clatasha-studio-editor.png" alt="Clatasha Studio editor creating a YouTube thumbnail">
+</p>
+
+<p align="center"><em>Layer-based thumbnail editing inside the Clatasha Studio Chrome extension.</em></p>
 
 ## Current version
 
