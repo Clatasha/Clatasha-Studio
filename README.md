@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/clatasha-studio-logo.png" width="220" alt="Clatasha Studio logo">
+  <img src="docs/images/clatasha-studio-logo.jpg" width="220" alt="Clatasha Studio logo">
 </p>
 
 <h1 align="center">Clatasha Studio</h1>
